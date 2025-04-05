@@ -3,242 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Japan Trip Itinerary</title>
-    <link rel="icon" href="favicon.ico"> <!-- Add your favicon here -->
-    <link rel="stylesheet" href="styles.css">
+    <title>Trip Itinerary</title>
+    <link rel="icon" href="favicon.ico">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
             margin: 0;
             padding: 0;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
         header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        h1 {
-            font-size: 2.5em;
-            color: #333;
-        }
-        h2 {
-            font-size: 2em;
-            margin-top: 40px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 40px;
-        }
-        table th, table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        table th {
-            background-color: #333;
-            color: #fff;
-        }
-        table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        table tr:hover {
-            background-color: #f1f1f1;
-        }
-        .tab {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .tab button {
-            padding: 10px 20px;
-            border: none;
             background-color: #333;
             color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin: 5px;
-            font-size: 1em;
-        }
-        .tab button:hover {
-            background-color: #555;
-        }
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2em;
-            }
-            .tab button {
-                font-size: 0.9em;
-                padding: 8px 16px;
-            }
-            table th, table td {
-                font-size: 0.9em;
-                padding: 10px;
-            }
-            table {
-                font-size: 0.9em;
-            }
-        }
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.5em;
-            }
-            .tab button {
-                font-size: 0.8em;
-                padding: 6px 12px;
-            }
-            table th, table td {
-                font-size: 0.8em;
-                padding: 8px;
-            }
-        }
-
-        /* Slider styling */
-        .slider-container {
-            margin: 20px 0;
+            padding: 20px;
             text-align: center;
         }
-
+        h1 {
+            margin: 0;
+        }
+        .slider-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
         .slider {
             width: 80%;
             max-width: 600px;
-            margin: 0 auto;
+        }
+        .day-container {
+            display: none;
+        }
+        .day-container.active {
             display: block;
         }
-
-        .slider-value {
-            font-size: 1.2em;
-            margin-top: 10px;
+        .itinerary-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        .itinerary-table th, .itinerary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .itinerary-table th {
+            background-color: #f1f1f1;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
         }
     </style>
 </head>
 <body>
-
-<div class="container">
     <header>
-        <h1>Japan Trip Itinerary (April 12-20, 2025)</h1>
+        <h1>Trip Itinerary</h1>
     </header>
 
-    <!-- Slider for Day Selection -->
     <div class="slider-container">
         <input type="range" min="1" max="9" value="1" class="slider" id="daySlider">
-        <div class="slider-value" id="sliderValue">Day 1</div>
+        <p id="dayLabel">Day 1</p>
     </div>
 
-    <div class="tab">
-        <button onclick="showDay(1)">Day 1</button>
-        <button onclick="showDay(2)">Day 2</button>
-        <button onclick="showDay(3)">Day 3</button>
-        <button onclick="showDay(4)">Day 4</button>
-        <button onclick="showDay(5)">Day 5</button>
-        <button onclick="showDay(6)">Day 6</button>
-        <button onclick="showDay(7)">Day 7</button>
-        <button onclick="showDay(8)">Day 8</button>
-        <button onclick="showDay(9)">Day 9</button>
-    </div>
-
-    <!-- Day 1 -->
-    <div id="day1" class="itinerary">
-        <h2>Day 1: Sat, Apr 12</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Activity</th>
-                    <th>Location</th>
-                    <th>Commuting Details</th>
-                    <th>Notes</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>07:30</td>
-                    <td>Poom arrives at NRT Terminal 1</td>
-                    <td>Narita Airport (NRT)</td>
-                    <td>Poom waits or takes airport shuttle to Terminal 2 (free, 10 min).</td>
-                    <td>Poom waits to meet others.</td>
-                </tr>
-                <tr>
-                    <td>07:55</td>
-                    <td>Pum, Noon, Nu arrive at NRT T2</td>
-                    <td>Narita Airport (NRT)</td>
-                    <td>Group clears immigration, gets Suica/Pasmo cards (¥500 deposit + ¥2,000 top-up).</td>
-                    <td>Prepare for NEX to Tokyo.</td>
-                </tr>
-                <tr>
-                    <td>08:30–09:30</td>
-                    <td>Group takes Narita Express (NEX) to Tokyo</td>
-                    <td>NRT to Otsuka Station</td>
-                    <td>¥3,240/person for NEX to Tokyo Station, then Yamanote Line to Otsuka.</td>
-                    <td>Check into Toyoko Inn Tokyo Yamanote-sen Otsuka-eki Kita-guchi No.2.</td>
-                </tr>
-                <tr>
-                    <td>12:00</td>
-                    <td>Pete arrives at NRT Terminal 2</td>
-                    <td>Narita Airport (NRT)</td>
-                    <td>Pete takes NEX to Tokyo Station (¥3,240).</td>
-                    <td>Pete meets group at hotel or Otsuka Station.</td>
-                </tr>
-                <tr>
-                    <td>13:30–17:00</td>
-                    <td>Exploring Senso-ji Temple & Nakamise-dori</td>
-                    <td>Asakusa</td>
-                    <td>Yamanote Line to Ueno, then Ginza Line to Asakusa (Total: ¥340).</td>
-                    <td>Share snacks (ningyoyaki, mochi).</td>
-                </tr>
-                <tr>
-                    <td>17:00–18:00</td>
-                    <td>Travel to Omotesando for dinner</td>
-                    <td>Asakusa to Omotesando</td>
-                    <td>Ginza Line from Asakusa to Ueno, Yamanote Line to Harajuku (Total: ¥340).</td>
-                    <td>Walk to Hamburg Yoshi Omotesando (5 min).</td>
-                </tr>
-                <tr>
-                    <td>18:00–20:00</td>
-                    <td>Dinner at Hamburg Yoshi Omotesando</td>
-                    <td>Minato City (Omotesando)</td>
-                    <td>-</td>
-                    <td>Charcoal-grilled hamburg specialty.</td>
-                </tr>
-                <tr>
-                    <td>20:00–20:30</td>
-                    <td>Return to hotel</td>
-                    <td>Omotesando to Otsuka</td>
-                    <td>Yamanote Line from Harajuku to Otsuka (¥170).</td>
-                    <td>Rest after a long travel day.</td>
-                </tr>
-            </tbody>
+    <div class="day-container active" id="day1">
+        <h2>Day 1 - Saturday, April 12</h2>
+        <table class="itinerary-table">
+            <tr>
+                <th>Time</th>
+                <th>Activity</th>
+                <th>Location</th>
+                <th>Commuting Details</th>
+                <th>Notes</th>
+            </tr>
+            <tr>
+                <td>07:30</td>
+                <td>Poom arrives at NRT Terminal 1</td>
+                <td>Narita Airport (NRT)</td>
+                <td>Poom waits or takes airport shuttle to Terminal 2 (free, 10 min).</td>
+                <td>Poom waits to meet others.</td>
+            </tr>
+            <tr>
+                <td>07:55</td>
+                <td>Pum, Noon, Nu arrive at NRT T2</td>
+                <td>Narita Airport (NRT)</td>
+                <td>Group clears immigration, gets Suica/Pasmo cards.</td>
+                <td>Prepare for NEX to Tokyo.</td>
+            </tr>
+            <!-- Add more rows for Day 1 here -->
         </table>
     </div>
 
-    <!-- Day 2 -->
-    <div id="day2" class="itinerary" style="display: none;">
-        <h2>Day 2: Sun, Apr 13</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Activity</th>
-                    <th>Location</th>
-                    <th>Commuting Details</th>
-                    <th>Notes</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>08:00</td>
-                    <td>Breakfast at Hotel</td>
-                    <td>Otsuka</td>
-                    <td>-</td>
-                    <td>Light breakfast before departure.</td>
-                </tr>
-                <tr>
-                    <td>09:00–12:00</td>
-                    <td>Visit Meiji Shrine</td>
+    <div class="day-container" id="day2">
+        <h2>Day 2 - Sunday, April 13</h2>
+        <table class="itinerary-table">
+            <!-- Add itinerary details for Day 2 -->
+        </table>
+    </div>
+
+    <div class="day-container" id="day3">
+        <h2>Day 3 - Monday, April 14</h2>
+        <table class="itinerary-table">
+            <!-- Add itinerary details for Day 3 -->
+        </table>
+    </div>
+
+    <div class="day-container" id="day4">
+        <h2>Day 4 - Tuesday, April 15</h2>
+        <table class="itinerary-table">
+            <!-- Add itinerary details for Day 4 -->
+        </table>
+    </div>
+
+    <div class="day-container" id="day5">
+        <h2>Day 5 - Wednesday, April 16</h2>
+        <table class="itinerary-table">
+            <!-- Add itinerary details for Day 5 -->
+        </table>
+    </div>
+
+    <div class="day-container" id="day6">
+        <h2>Day 6 - Thursday, April 17</h2>
+        <table class="itinerary-table">
+            <!-- Add itinerary details for Day 6 -->
+        </table>
+    </div>
+
+    <div class="day-container" id="day7">
+        <h2>Day 7 - Friday, April 18</h2>
+        <table class="itinerary-table">
+            <!-- Add itinerary details for Day 7 -->
+        </table>
+    </div>
+
+    <div class="day-container" id="day8">
+        <h2>Day 8 - Saturday, April 19</h2>
+        <table class="itinerary-table">
+            <!-- Add itinerary details for Day 8 -->
+        </table>
+    </div>
+
+    <div class="day-container" id="day9">
+        <h2>Day 9 - Sunday, April 20</h2>
+        <table class="itinerary-table">
+            <!-- Add itinerary details for Day 9 -->
+        </table>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Trip Itinerary. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const slider = document.getElementById("daySlider");
+        const dayLabel = document.getElementById("dayLabel");
+
+        slider.addEventListener("input", function() {
+            const day = slider.value;
+            dayLabel.textContent = `Day ${day}`;
+
+            // Hide all day containers
+            const days = document.querySelectorAll(".day-container");
+            days.forEach(dayContainer => {
+                dayContainer.classList.remove("active");
+            });
+
+            // Show the selected day container
+            document.getElementById(`day${day}`).classList.add("active");
+        });
+    </script>
+</body>
+</html>
