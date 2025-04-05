@@ -52,7 +52,8 @@
         }
         .tab {
             display: flex;
-            justify-content: space-between;
+            flex-wrap: wrap;
+            justify-content: center;
             margin-bottom: 20px;
         }
         .tab button {
@@ -62,9 +63,40 @@
             color: white;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin: 5px;
+            font-size: 1em;
         }
         .tab button:hover {
             background-color: #555;
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            .tab button {
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+            table th, table td {
+                font-size: 0.9em;
+                padding: 10px;
+            }
+            table {
+                font-size: 0.9em;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+            .tab button {
+                font-size: 0.8em;
+                padding: 6px 12px;
+            }
+            table th, table td {
+                font-size: 0.8em;
+                padding: 8px;
+            }
         }
     </style>
 </head>
@@ -228,256 +260,11 @@
         </table>
     </div>
 
-    <!-- Day 3 -->
-    <div id="day3" class="itinerary" style="display: none;">
-        <h2>Day 3: Mon, Apr 14</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Activity</th>
-                    <th>Location</th>
-                    <th>Commuting Details</th>
-                    <th>Notes</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>09:00</td>
-                    <td>Breakfast at Hotel</td>
-                    <td>Otsuka</td>
-                    <td>-</td>
-                    <td>Fuel up for a day of sightseeing.</td>
-                </tr>
-                <tr>
-                    <td>10:00–13:00</td>
-                    <td>Explore Akihabara</td>
-                    <td>Akihabara</td>
-                    <td>Yamanote Line to Akihabara (¥170).</td>
-                    <td>Explore electronics shops, anime stores, and cafes.</td>
-                </tr>
-                <tr>
-                    <td>13:30–15:00</td>
-                    <td>Lunch at Akihabara</td>
-                    <td>Akihabara</td>
-                    <td>-</td>
-                    <td>Try some unique Tokyo-style dishes.</td>
-                </tr>
-                <tr>
-                    <td>15:30–18:00</td>
-                    <td>Visit Ueno Zoo and Park</td>
-                    <td>Ueno</td>
-                    <td>Yamanote Line to Ueno (¥170).</td>
-                    <td>Spend time relaxing and observing animals.</td>
-                </tr>
-                <tr>
-                    <td>18:30</td>
-                    <td>Dinner at Ueno</td>
-                    <td>Ueno</td>
-                    <td>-</td>
-                    <td>Enjoy dinner at a local restaurant.</td>
-                </tr>
-                <tr>
-                    <td>20:00</td>
-                    <td>Return to Hotel</td>
-                    <td>Ueno to Otsuka</td>
-                    <td>Yamanote Line to Otsuka (¥170).</td>
-                    <td>Rest after a fun day in Tokyo.</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <!-- More days follow... -->
 
-    <!-- Day 4 -->
-    <div id="day4" class="itinerary" style="display: none;">
-        <h2>Day 4: Tue, Apr 15</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Activity</th>
-                    <th>Location</th>
-                    <th>Commuting Details</th>
-                    <th>Notes</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>09:00</td>
-                    <td>Breakfast at Hotel</td>
-                    <td>Otsuka</td>
-                    <td>-</td>
-                    <td>Light breakfast.</td>
-                </tr>
-                <tr>
-                    <td>10:00–12:00</td>
-                    <td>Visit Tsukiji Outer Market</td>
-                    <td>Tsukiji</td>
-                    <td>Hibiya Line from Naka-Meguro to Tsukiji (¥190).</td>
-                    <td>Enjoy fresh seafood.</td>
-                </tr>
-                <tr>
-                    <td>12:30–14:00</td>
-                    <td>Lunch at Tsukiji</td>
-                    <td>Tsukiji</td>
-                    <td>-</td>
-                    <td>Try the best sushi!</td>
-                </tr>
-                <tr>
-                    <td>14:30–16:00</td>
-                    <td>Explore Ginza</td>
-                    <td>Ginza</td>
-                    <td>Tokyo Metro Hibiya Line to Ginza (¥200).</td>
-                    <td>Check out high-end shopping.</td>
-                </tr>
-                <tr>
-                    <td>16:30–18:00</td>
-                    <td>Visit Tokyo Tower</td>
-                    <td>Minato</td>
-                    <td>Tokyo Metro Oedo Line to Akabanebashi (¥170).</td>
-                    <td>See the city from the tower.</td>
-                </tr>
-                <tr>
-                    <td>18:30</td>
-                    <td>Dinner at Roppongi</td>
-                    <td>Roppongi</td>
-                    <td>-</td>
-                    <td>Enjoy international cuisine.</td>
-                </tr>
-                <tr>
-                    <td>20:00</td>
-                    <td>Return to Hotel</td>
-                    <td>Roppongi to Otsuka</td>
-                    <td>Tokyo Metro to Otsuka (¥300).</td>
-                    <td>Rest after another exciting day.</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Day 5 -->
-    <div id="day5" class="itinerary" style="display: none;">
-        <h2>Day 5: Wed, Apr 16</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Activity</th>
-                    <th>Location</th>
-                    <th>Commuting Details</th>
-                    <th>Notes</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>09:00</td>
-                    <td>Breakfast at Hotel</td>
-                    <td>Otsuka</td>
-                    <td>-</td>
-                    <td>Start the day with breakfast.</td>
-                </tr>
-                <tr>
-                    <td>10:00–13:00</td>
-                    <td>Visit Odaiba</td>
-                    <td>Odaiba</td>
-                    <td>Yurikamome Line to Odaiba (¥320).</td>
-                    <td>Explore the futuristic island.</td>
-                </tr>
-                <tr>
-                    <td>13:30–15:00</td>
-                    <td>Lunch at Odaiba</td>
-                    <td>Odaiba</td>
-                    <td>-</td>
-                    <td>Try some local favorites.</td>
-                </tr>
-                <tr>
-                    <td>15:30–17:30</td>
-                    <td>Visit teamLab Borderless</td>
-                    <td>Odaiba</td>
-                    <td>-</td>
-                    <td>Explore the immersive digital art museum.</td>
-                </tr>
-                <tr>
-                    <td>18:00</td>
-                    <td>Return to Hotel</td>
-                    <td>Odaiba to Otsuka</td>
-                    <td>Yurikamome Line to Shimbashi, transfer to Yamanote Line to Otsuka (¥520).</td>
-                    <td>Relax after the day's adventures.</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Day 6 -->
-    <div id="day6" class="itinerary" style="display: none;">
-        <h2>Day 6: Thu, Apr 17</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Activity</th>
-                    <th>Location</th>
-                    <th>Commuting Details</th>
-                    <th>Notes</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>09:00</td>
-                    <td>Breakfast at Hotel</td>
-                    <td>Otsuka</td>
-                    <td>-</td>
-                    <td>Start the day with breakfast.</td>
-                </tr>
-                <tr>
-                    <td>10:00–12:00</td>
-                    <td>Explore Shinjuku Gyoen National Garden</td>
-                    <td>Shinjuku</td>
-                    <td>Yamanote Line to Shinjuku (¥170).</td>
-                    <td>Enjoy the serenity of the gardens.</td>
-                </tr>
-                <tr>
-                    <td>12:30–14:00</td>
-                    <td>Lunch at Shinjuku</td>
-                    <td>Shinjuku</td>
-                    <td>-</td>
-                    <td>Try one of the many ramen spots.</td>
-                </tr>
-                <tr>
-                    <td>14:30–17:00</td>
-                    <td>Visit Tokyo Metropolitan Government Building</td>
-                    <td>Shinjuku</td>
-                    <td>Walk or take a short subway ride.</td>
-                    <td>See the city from the observation deck.</td>
-                </tr>
-                <tr>
-                    <td>17:30–19:00</td>
-                    <td>Dinner in Shinjuku</td>
-                    <td>Shinjuku</td>
-                    <td>-</td>
-                    <td>Enjoy local dishes in vibrant Shinjuku.</td>
-                </tr>
-                <tr>
-                    <td>19:30</td>
-                    <td>Return to Hotel</td>
-                    <td>Shinjuku to Otsuka</td>
-                    <td>Yamanote Line to Otsuka (¥170).</td>
-                    <td>End of Day 6.</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
 </div>
 
 <script>
     function showDay(day) {
         for (let i = 1; i <= 9; i++) {
-            document.getElementById('day' + i).style.display = (i === day) ? 'block' : 'none';
-        }
-    }
-    // Show Day 1 by default
-    showDay(1);
-</script>
-
-</body>
-</html>
+            document.getElementById('day' + i).style.display =
