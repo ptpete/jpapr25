@@ -1,11 +1,12 @@
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCAbCD5eLXKW-izbCmVOpA-9jAjcLSN3b4",
-  authDomain: "jpapr25.firebaseapp.com",
-  projectId: "jpapr25",
-  storageBucket: "jpapr25.firebasestorage.app",
-  messagingSenderId: "664046829915",
-  appId: "1:664046829915:web:7d16ace7d82bf918295a7e"
+    apiKey: "AIzaSyCAbCD5eLXKW-izbCmVOpA-9jAjcLSN3b4",
+    authDomain: "jpapr25.firebaseapp.com",
+    databaseURL: "https://jpapr25-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "jpapr25",
+    storageBucket: "jpapr25.firebasestorage.app",
+    messagingSenderId: "664046829915",
+    appId: "1:664046829915:web:7d16ace7d82bf918295a7e"
 };
 
 // Initialize Firebase
