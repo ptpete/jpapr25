@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Sheets Checkbox Sync</title>
+    <title>Google Sheets Checkbox Sync (OAuth 2.0 Client-Side)</title>
     <style>
         body {
             font-family: sans-serif;
@@ -21,127 +21,148 @@
             margin-top: 20px;
             font-weight: bold;
         }
+        #authorize-button {
+            display: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <h1>Checkbox Status from Google Sheets</h1>
+    <h1>Checkbox Status from Google Sheets (OAuth 2.0)</h1>
 
-    <div id="checkbox-container">
-        </div>
-
+    <button id="authorize-button" onclick="handleAuthClick()">Authorize Google Sheets</button>
+    <div id="checkbox-container"></div>
     <div id="status-message"></div>
 
+    <script src="https://apis.google.com/js/api.js"></script>
     <script>
-        const apiKey = 'AIzaSyCNxV6lXO282697QMTfh50Cmrl0OSKLW9Q'; // Your provided API key
-        const sheetUrl = 'https://docs.google.com/spreadsheets/d/1Drhe2Hh4e_Vmw8XMa8e7Oyh-4bOB178BoBYRF06n0Gk/edit?gid=0#gid=0';
-        const sheetId = sheetUrl.split('/d/')[1].split('/')[0];
-        const sheetName = 'Sheet1'; // Adjust if your sheet has a different name
-        const nameColumn = 'A'; // Column containing checkbox names
-        const statusColumn = 'B'; // Column containing checkbox status (TRUE/FALSE)
-        const startRow = 2; // Row number where the checkbox data starts
+        const CLIENT_ID = '699729833405-df3jlrnlu218661fjggnv8fd2kj8rh2o.apps.googleusercontent.com'; // **REPLACE THIS WITH YOUR ACTUAL CLIENT ID IF DIFFERENT**
+        const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
+        const SHEET_ID = '1Drhe2Hh4e_Vmw8XMa8e7Oyh-4bOB178BoBYRF06n0Gk'; // Your provided Sheet ID
+        const SHEET_NAME = 'Sheet1';
+        const NAME_COLUMN = 'A';
+        const STATUS_COLUMN = 'B';
+        const START_ROW = 2;
 
-        const checkboxContainer = document.getElementById('checkbox-container');
-        const statusMessage = document.getElementById('status-message');
+        let gapiInited = false;
+        let gisInited = false;
 
-        function updateCheckboxStatus(checkboxName, isChecked) {
-            statusMessage.textContent = `Updating ${checkboxName} to ${isChecked}...`;
-            const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}!${statusColumn}${startRow}:${statusColumn}?valueInputOption=USER_ENTERED&key=${apiKey}`;
+        document.addEventListener('DOMContentLoaded', () => {
+            gapi.load('client', initClient);
+        });
 
-            fetch(apiUrl, {
-                method: 'GET'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.values) {
-                    const rowIndex = data.values.findIndex(row => {
-                        const nameApiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}!${nameColumn}${startRow}:${nameColumn}?key=${apiKey}`;
-                        return fetch(nameApiUrl)
-                            .then(nameResponse => nameResponse.json())
-                            .then(nameData => {
-                                if (nameData.values && nameData.values[rowIndex] && nameData.values[rowIndex][0] === checkboxName) {
-                                    return true;
-                                }
-                                return false;
-                            });
-                    });
+        function initClient() {
+            gapi.client.init({
+                clientId: CLIENT_ID,
+                scope: SCOPES,
+                discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+            }).then(() => {
+                gapiInited = true;
+                checkAuth();
+            }).catch(error => {
+                console.error('Error initializing gapi:', error);
+                statusMessage.textContent = 'Error initializing Google API client.';
+            });
+        }
 
-                    if (rowIndex !== -1) {
-                        const updateApiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}!${statusColumn}${startRow + rowIndex}?valueInputOption=USER_ENTERED&key=${apiKey}`;
-                        fetch(updateApiUrl, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                values: [[isChecked.toString().toUpperCase()]]
-                            })
-                        })
-                        .then(updateResponse => updateResponse.json())
-                        .then(updateData => {
-                            statusMessage.textContent = `${checkboxName} updated successfully.`;
-                        })
-                        .catch(error => {
-                            statusMessage.textContent = `Error updating ${checkboxName}: ${error}`;
-                            console.error('Error updating Google Sheet:', error);
-                        });
-                    } else {
-                        statusMessage.textContent = `Checkbox "${checkboxName}" not found in the sheet.`;
-                    }
-                } else {
-                    statusMessage.textContent = 'Could not read checkbox data from the sheet.';
-                }
-            })
-            .catch(error => {
-                statusMessage.textContent = `Error fetching checkbox data: ${error}`;
-                console.error('Error fetching Google Sheet data:', error);
+        function checkAuth() {
+            gapi.auth2.getAuthInstance().isSignedIn.listen(updateSignInStatus);
+            updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+        }
+
+        function updateSignInStatus(isSignedIn) {
+            if (isSignedIn) {
+                console.log('User signed in.');
+                document.getElementById('authorize-button').style.display = 'none';
+                loadCheckboxes();
+            } else {
+                console.log('User not signed in.');
+                document.getElementById('authorize-button').style.display = 'block';
+                statusMessage.textContent = 'Please authorize to access Google Sheets.';
+            }
+        }
+
+        function handleAuthClick() {
+            gapi.auth2.getAuthInstance().signIn();
+        }
+
+        function updateCheckboxStatus(index, isChecked) {
+            if (!gapiInited || !gapi.client.sheets || !gapi.auth2.getAuthInstance().isSignedIn.get()) {
+                console.error('Google Sheets API not initialized or user not signed in.');
+                statusMessage.textContent = 'Not authorized to update.';
+                return;
+            }
+
+            statusMessage.textContent = `Updating checkbox at index ${index} to ${isChecked}...`;
+            const rowIndexInSheet = START_ROW + index;
+            const range = `${SHEET_NAME}!${STATUS_COLUMN}${rowIndexInSheet}`;
+            const value = [[isChecked.toString().toUpperCase()]];
+
+            gapi.client.sheets.spreadsheets.values.update({
+                spreadsheetId: SHEET_ID,
+                range: range,
+                valueInputOption: 'USER_ENTERED',
+                value: value
+            }).then((response) => {
+                statusMessage.textContent = `Checkbox at index ${index} updated successfully.`;
+                console.log('Update response:', response);
+            }, (error) => {
+                statusMessage.textContent = `Error updating checkbox at index ${index}: ${error.result.error.message}`;
+                console.error('Error updating Google Sheet:', error);
             });
         }
 
         function loadCheckboxes() {
+            if (!gapiInited || !gapi.client.sheets || !gapi.auth2.getAuthInstance().isSignedIn.get()) {
+                console.error('Google Sheets API not initialized or user not signed in.');
+                statusMessage.textContent = 'Not authorized to load data.';
+                return;
+            }
+
             statusMessage.textContent = 'Loading checkboxes...';
-            const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}!${nameColumn}${startRow}:${statusColumn}?key=${apiKey}`;
+            const range = `${SHEET_NAME}!${NAME_COLUMN}${START_ROW}:${STATUS_COLUMN}`;
 
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    checkboxContainer.innerHTML = ''; // Clear previous checkboxes
-                    if (data.values && data.values.length > 0) {
-                        data.values.forEach(row => {
-                            const checkboxName = row[0];
-                            const checkedStatus = row[1] === 'TRUE';
+            gapi.client.sheets.spreadsheets.values.get({
+                spreadsheetId: SHEET_ID,
+                range: range,
+            }).then((response) => {
+                const data = response.result.values;
+                checkboxContainer.innerHTML = '';
+                if (data && data.length > 0) {
+                    data.forEach((row, index) => {
+                        const checkboxName = row[0];
+                        const checkedStatus = row[1] === 'TRUE';
 
-                            const checkboxDiv = document.createElement('div');
-                            checkboxDiv.classList.add('checkbox-row');
+                        const checkboxDiv = document.createElement('div');
+                        checkboxDiv.classList.add('checkbox-row');
 
-                            const checkbox = document.createElement('input');
-                            checkbox.type = 'checkbox';
-                            checkbox.id = checkboxName.toLowerCase().replace(/\s+/g, '-'); // Create a unique ID
-                            checkbox.checked = checkedStatus;
-                            checkbox.addEventListener('change', function() {
-                                updateCheckboxStatus(checkboxName, this.checked);
-                            });
-
-                            const label = document.createElement('label');
-                            label.setAttribute('for', checkbox.id);
-                            label.textContent = checkboxName;
-
-                            checkboxDiv.appendChild(checkbox);
-                            checkboxDiv.appendChild(label);
-                            checkboxContainer.appendChild(checkboxDiv);
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.id = checkboxName.toLowerCase().replace(/\s+/g, '-');
+                        checkbox.checked = checkedStatus;
+                        checkbox.addEventListener('change', function() {
+                            updateCheckboxStatus(index, this.checked);
                         });
-                        statusMessage.textContent = 'Checkboxes loaded.';
-                    } else {
-                        statusMessage.textContent = 'No checkbox data found in the Google Sheet.';
-                    }
-                })
-                .catch(error => {
-                    statusMessage.textContent = `Error loading checkboxes: ${error}`;
-                    console.error('Error fetching Google Sheet data:', error);
-                });
-        }
 
-        // Load checkboxes when the page loads
-        window.onload = loadCheckboxes;
+                        const label = document.createElement('label');
+                        label.setAttribute('for', checkbox.id);
+                        label.textContent = checkboxName;
+
+                        checkboxDiv.appendChild(checkbox);
+                        checkboxDiv.appendChild(label);
+                        checkboxContainer.appendChild(checkboxDiv);
+                    });
+                    statusMessage.textContent = 'Checkboxes loaded.';
+                } else {
+                    statusMessage.textContent = 'No checkbox data found in the Google Sheet.';
+                }
+            }, (error) => {
+                statusMessage.textContent = `Error loading checkboxes: ${error.result.error.message}`;
+                console.error('Error fetching Google Sheet data:', error);
+            });
+        }
     </script>
 </body>
 </html>
