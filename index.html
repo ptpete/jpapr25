@@ -6,47 +6,109 @@
     <title>Japan Travel Plan - April 2025</title>
     <style>
         body {
-            font-family: sans-serif;
-            margin: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
             line-height: 1.6;
-            background-color: #f4f4f4;
+            background-color: #f8f8f8;
             color: #333;
         }
+
         h1, h2, h3 {
-            color: #0056b3;
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
         }
+
+        .date-selector {
+            padding: 15px;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .date-selector label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .date-selector select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            appearance: none; /* Remove default arrow */
+            background-image: url('data:image/svg+xml;utf8,<svg fill="currentColor" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position-x: 100%;
+            background-position-y: 50%;
+            background-size: 1em;
+            cursor: pointer;
+        }
+
         .day-container {
             background-color: #fff;
             padding: 15px;
-            margin-bottom: 20px;
+            margin: 15px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
+        .day-container h2 {
+            text-align: left;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            color: #007bff;
+        }
+
         .activity {
             display: grid;
-            grid-template-columns: 15% 25% 20% 30% 10%;
+            grid-template-columns: 1fr 2fr 1.5fr 3fr 1fr;
             gap: 10px;
-            padding: 8px 0;
+            padding: 10px 0;
             border-bottom: 1px solid #eee;
+            align-items: center;
         }
+
         .activity:last-child {
             border-bottom: none;
         }
+
         .activity-header {
             font-weight: bold;
+            color: #555;
         }
+
         .notes {
             font-style: italic;
             color: #777;
+            font-size: 0.9em;
         }
-        .date-selector {
-            margin-bottom: 20px;
-        }
-        #plan-container {
-            /* Container for dynamically shown plan */
-        }
-        .hidden {
-            display: none;
+
+        /* Mobile-friendly adjustments */
+        @media (max-width: 768px) {
+            .activity {
+                grid-template-columns: 1fr;
+                padding: 15px;
+                border: 1px solid #eee;
+                margin-bottom: 10px;
+                border-radius: 5px;
+            }
+
+            .activity-header {
+                display: none; /* Hide headers on small screens */
+            }
+
+            .activity > div:first-child {
+                font-weight: bold;
+                margin-bottom: 5px;
+                color: #333;
+            }
+
+            .notes {
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
@@ -59,18 +121,11 @@
             <option value="">-- Select a Date --</option>
             <option value="2025-04-12">Saturday, April 12</option>
             <option value="2025-04-13">Sunday, April 13</option>
-            <option value="2025-04-14">Monday, April 14</option>
-            <option value="2025-04-15">Tuesday, April 15</option>
-            <option value="2025-04-16">Wednesday, April 16</option>
-            <option value="2025-04-17">Thursday, April 17</option>
-            <option value="2025-04-18">Friday, April 18</option>
-            <option value="2025-04-19">Saturday, April 19</option>
-            <option value="2025-04-20">Sunday, April 20</option>
-        </select>
+            </select>
     </div>
 
     <div id="plan-container">
-<div id="2025-04-12" class="day-container hidden">
+        <div id="2025-04-12" class="day-container">
             <h2>Day 1: Saturday, April 12</h2>
             <div class="activity">
                 <div class="activity-header">Time</div>
@@ -78,65 +133,99 @@
                 <div class="activity-header">Location</div>
                 <div class="activity-header">Commuting Details</div>
                 <div class="activity-header">Notes</div>
-            </div>
-            <div class="activity">
                 <div>07:30</div>
                 <div>Poom arrives at NRT Terminal 1</div>
                 <div>Narita Airport (NRT)</div>
                 <div>Poom waits or takes airport shuttle to Terminal 2 (free, 10 min).</div>
-                <div>Poom waits to meet others.</div>
+                <div class="notes">Poom waits to meet others.</div>
             </div>
             <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
                 <div>07:55</div>
                 <div>Pum, Noon, Nu arrive at NRT T2</div>
                 <div>Narita Airport (NRT)</div>
                 <div>Group of 4 clears immigration, gets Suica/Pasmo cards (¥500 deposit + ¥2,000 top-up). Prepare for NEX to Tokyo.</div>
-                <div></div>
+                <div class="notes"></div>
             </div>
             <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
                 <div>08:30–09:30</div>
                 <div>Group of 4 takes Narita Express (NEX) to Tokyo</div>
                 <div>NRT to Otsuka Station</div>
                 <div>NEX from NRT to Tokyo Station (¥3,070, 1 hr), then Yamanote Line to Otsuka (¥170, 10 min). Total: ¥3,240/person.</div>
-                <div>Check into Toyoko Inn Tokyo Yamanote-sen Otsuka-eki Kita-guchi No.2.</div>
+                <div class="notes">Check into Toyoko Inn Tokyo Yamanote-sen Otsuka-eki Kita-guchi No.2.</div>
             </div>
             <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
                 <div>12:00</div>
                 <div>Pete arrives at NRT Terminal 2</div>
                 <div>Narita Airport (NRT)</div>
                 <div>Pete takes NEX to Tokyo Station (¥3,070, 1 hr), then Yamanote Line to Otsuka (¥170, 10 min). Total: ¥3,240.</div>
-                <div>Pete meets group at hotel or Otsuka Station.</div>
+                <div class="notes">Pete meets group at hotel or Otsuka Station.</div>
             </div>
             <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
                 <div>13:30–17:00</div>
                 <div>Light exploring at Senso-ji Temple & Nakamise-dori</div>
                 <div>Asakusa</div>
                 <div>Yamanote Line from Otsuka to Ueno (¥170, 5 min), then Ginza Line to Asakusa (¥170, 5 min). Total: ¥340/person.</div>
-                <div>Share snacks (ningyoyaki, mochi).</div>
+                <div class="notes">Share snacks (ningyoyaki, mochi).</div>
             </div>
             <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
                 <div>17:00–18:00</div>
                 <div>Travel to Omotesando for dinner</div>
                 <div>Asakusa to Omotesando</div>
                 <div>Ginza Line from Asakusa to Ueno (¥170, 5 min), Yamanote Line to Harajuku (¥170, 15 min). Total: ¥340/person.</div>
-                <div>Walk to Hamburg Yoshi Omotesando (5 min from Harajuku Station).</div>
+                <div class="notes">Walk to Hamburg Yoshi Omotesando (5 min from Harajuku Station).</div>
             </div>
             <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
                 <div>18:00–20:00</div>
                 <div>Dinner at Hamburg Yoshi Omotesando</div>
                 <div>Minato City (Omotesando)</div>
                 <div>-</div>
-                <div>Charcoal-grilled hamburg specialty.</div>
+                <div class="notes">Charcoal-grilled hamburg specialty.</div>
             </div>
             <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
                 <div>20:00–20:30</div>
                 <div>Return to hotel</div>
                 <div>Omotesando to Otsuka</div>
                 <div>Yamanote Line from Harajuku to Otsuka (¥170, 15 min). Total: ¥170/person.</div>
-                <div>Rest after a long travel day.</div>
+                <div class="notes">Rest after a long travel day.</div>
             </div>
         </div>
-<div id="2025-04-13" class="day-container hidden">
+
+        <div id="2025-04-13" class="day-container hidden">
             <h2>Day 2: Sunday, April 13</h2>
             <div class="activity">
                 <div class="activity-header">Time</div>
@@ -144,478 +233,107 @@
                 <div class="activity-header">Location</div>
                 <div class="activity-header">Commuting Details</div>
                 <div class="activity-header">Notes</div>
-            </div>
-            <div class="activity">
                 <div>07:00</div>
                 <div>Pick up rental car at Takadanobaba Station Store</div>
                 <div>Takadanobaba, Shinjuku</div>
                 <div>Yamanote Line from Otsuka to Takadanobaba (¥170, 5 min). Total: ¥170/person.</div>
-                <div>Toyota Serena e-Power, reserved for April 13–15.</div>
+                <div class="notes">Toyota Serena e-Power, reserved for April 13–15.</div>
             </div>
             <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
                 <div>07:30–11:30</div>
                 <div>Drive to Sendai</div>
                 <div>Tokyo to Sendai</div>
                 <div>~350 km, 4–4.5 hours via Tohoku Expressway. Tolls: ~¥3,750 one way (included in rental).</div>
-                <div>Stop for a break if needed.</div>
+                <div class="notes">Stop for a break if needed.</div>
             </div>
             <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
                 <div>11:30–12:30</div>
                 <div>Arrive in Sendai, check into hotel</div>
                 <div>Toyoko Inn Sendai Higashi-guchi No.2</div>
                 <div>-</div>
-                <div>Quick rest after the drive.</div>
+                <div class="notes">Quick rest after the drive.</div>
             </div>
             <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
                 <div>12:30–13:00</div>
                 <div>Walk to PARCO Sendai</div>
                 <div>Sendai Station to PARCO</div>
                 <div>5-minute walk from Sendai Station (Toyoko Inn is near the station).</div>
-                <div></div>
+                <div class="notes"></div>
             </div>
             <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
                 <div>13:00–16:00</div>
                 <div>Visit Pokémon Center Tohoku at PARCO Sendai</div>
                 <div>Sendai (PARCO Sendai)</div>
                 <div>-</div>
-                <div>Shop for Pokémon merchandise, take photos.</div>
+                <div class="notes">Shop for Pokémon merchandise, take photos.</div>
             </div>
             <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
                 <div>16:00–16:30</div>
                 <div>Walk to Jozenji-dori Avenue</div>
                 <div>PARCO to Jozenji-dori</div>
                 <div>10-minute walk from PARCO Sendai.</div>
-                <div></div>
+                <div class="notes"></div>
             </div>
             <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
                 <div>16:30–18:00</div>
                 <div>Explore Sendai: Jozenji-dori Avenue</div>
                 <div>Sendai</div>
                 <div>-</div>
-                <div>Stroll along the tree-lined avenue, see zelkova trees and sculptures.</div>
+                <div class="notes">Stroll along the tree-lined avenue, see zelkova trees and sculptures.</div>
             </div>
             <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
                 <div>18:00–19:00</div>
                 <div>Walk back to Sendai Station area</div>
                 <div>Jozenji-dori to Sendai Stn</div>
                 <div>15-minute walk.</div>
-                <div></div>
+                <div class="notes"></div>
             </div>
             <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
                 <div>19:00</div>
                 <div>Dinner at a local restaurant</div>
                 <div>Sendai</div>
                 <div>-</div>
-                <div>Try Sendai specialties like gyutan (grilled beef tongue) at Rikyu.</div>
-            </div>
-        </div>
-<div id="2025-04-14" class="day-container hidden">
-            <h2>Day 3: Monday, April 14</h2>
-            <div class="activity">
-                <div class="activity-header">Time</div>
-                <div class="activity-header">Activity</div>
-                <div class="activity-header">Location</div>
-                <div class="activity-header">Commuting Details</div>
-                <div class="activity-header">Notes</div>
-            </div>
-            <div class="activity">
-                <div>09:00–09:30</div>
-                <div>Drive to Sendai Castle (Aoba Castle)</div>
-                <div>Sendai Station to Aoba Castle</div>
-                <div>~5 km, 15 min drive. No tolls. Parking: ~¥500.</div>
-                <div></div>
-            </div>
-            <div class="activity">
-                <div>09:30–12:00</div>
-                <div>Visit Sendai Castle (Aoba Castle)</div>
-                <div>Sendai</div>
-                <div>-</div>
-                <div>Historical site with views of Sendai. Statue of Date Masamune.</div>
-            </div>
-            <div class="activity">
-                <div>12:00–12:30</div>
-                <div>Drive to Sendai Mediatheque</div>
-                <div>Aoba Castle to Mediatheque</div>
-                <div>~4 km, 15 min drive. No tolls. Parking: ~¥500.</div>
-                <div></div>
-            </div>
-            <div class="activity">
-                <div>12:30–14:00</div>
-                <div>Lunch and explore Sendai Mediatheque</div>
-                <div>Sendai</div>
-                <div>-</div>
-                <div>Modern library with unique architecture, good for a quick visit.</div>
-            </div>
-            <div class="activity">
-                <div>14:00–14:30</div>
-                <div>Drive to Zuihoden Mausoleum</div>
-                <div>Mediatheque to Zuihoden</div>
-                <div>~3 km, 10 min drive. No tolls. Parking: ~¥500.</div>
-                <div></div>
-            </div>
-            <div class="activity">
-                <div>14:30–17:00</div>
-                <div>Visit Zuihoden Mausoleum</div>
-                <div>Sendai</div>
-                <div>-</div>
-                <div>Mausoleum of Date Masamune, beautifully decorated.</div>
-            </div>
-            <div class="activity">
-                <div>17:00–17:30</div>
-                <div>Drive back to Sendai Station area</div>
-                <div>Zuihoden to Sendai Stn</div>
-                <div>~5 km, 15 min drive. No tolls.</div>
-                <div></div>
-            </div>
-            <div class="activity">
-                <div>18:00</div>
-                <div>Dinner at a local izakaya</div>
-                <div>Sendai</div>
-                <div>-</div>
-                <div>Try local sake and seafood dishes near Sendai Station.</div>
-            </div>
-        </div>
-
-        <div id="2025-04-15" class="day-container hidden">
-            <h2>Day 4: Tuesday, April 15</h2>
-            <div class="activity">
-                <div class="activity-header">Time</div>
-                <div class="activity-header">Activity</div>
-                <div class="activity-header">Location</div>
-                <div class="activity-header">Commuting Details</div>
-                <div class="activity-header">Notes</div>
-            </div>
-            <div class="activity">
-                <div>07:00–11:30</div>
-                <div>Drive back to Tokyo</div>
-                <div>Sendai to Tokyo</div>
-                <div>~350 km, 4–4.5 hours via Tohoku Expressway. Tolls: ~¥3,750 one way (included in rental).</div>
-                <div>Stop for a break if needed.</div>
-            </div>
-            <div class="activity">
-                <div>11:30–12:30</div>
-                <div>Drop off car at Takadanobaba Station Store</div>
-                <div>Takadanobaba, Shinjuku</div>
-                <div>Yamanote Line from Takadanobaba to Otsuka (¥170, 5 min). Total: ¥170/person.</div>
-                <div>Return the Toyota Serena.</div>
-            </div>
-            <div class="activity">
-                <div>13:00–13:30</div>
-                <div>Travel to Ueno</div>
-                <div>Otsuka to Ueno</div>
-                <div>Yamanote Line from Otsuka to Ueno (¥170, 5 min). Total: ¥170/person.</div>
-                <div></div>
-            </div>
-            <div class="activity">
-                <div>13:30–16:00</div>
-                <div>Visit Ueno Park (Tokyo National Museum or Zoo)</div>
-                <div>Ueno</div>
-                <div>-</div>
-                <div>Relax in the park, see late cherry blossoms if any.</div>
-            </div>
-            <div class="activity">
-                <div>16:00–16:30</div>
-                <div>Travel to Shinjuku</div>
-                <div>Ueno to Shinjuku</div>
-                <div>Yamanote Line from Ueno to Shinjuku (¥200, 15 min). Total: ¥200/person.</div>
-                <div></div>
-            </div>
-            <div class="activity">
-                <div>18:00</div>
-                <div>Dinner at Omoide Yokocho</div>
-                <div>Shinjuku</div>
-                <div>Walk from Shinjuku Station (5 min).</div>
-                <div>Yakitori and drinks in Memory Lane.</div>
-            </div>
-            <div class="activity">
-                <div>18:30–19:00</div>
-                <div>Return to hotel</div>
-                <div>Shinjuku to Otsuka</div>
-                <div>Yamanote Line from Shinjuku to Otsuka (¥170, 10 min). Total: ¥170/person.</div>
-                <div></div>
-            </div>
-        </div>
-<div id="2025-04-16" class="day-container hidden">
-            <h2>Day 5: Wednesday, April 16</h2>
-            <div class="activity">
-                <div class="activity-header">Time</div>
-                <div class="activity-header">Activity</div>
-                <div class="activity-header">Location</div>
-                <div class="activity-header">Commuting Details</div>
-                <div class="activity-header">Notes</div>
-            </div>
-            <div class="activity">
-                <div>08:00–08:30</div>
-                <div>Travel to Tokyo Disneyland</div>
-                <div>Otsuka to Maihama</div>
-                <div>Yamanote Line from Otsuka to Tokyo Station (¥170, 10 min), then Keiyo Line to Maihama (¥230, 15 min). Total: ¥400/person.</div>
-                <div>Book Disneyland tickets in advance.</div>
-            </div>
-            <div class="activity">
-                <div>08:30–14:00</div>
-                <div>Tokyo Disneyland or DisneySea</div>
-                <div>Maihama (Disneyland)</div>
-                <div>-</div>
-                <div>Rides, parades, snacks. All 5 together.</div>
-            </div>
-            <div class="activity">
-                <div>14:00–21:00</div>
-                <div>Continue at Disneyland</div>
-                <div>Maihama (Disneyland)</div>
-                <div>-</div>
-                <div>Stay for nighttime parade and fireworks. Late dinner after returning.</div>
-            </div>
-            <div class="activity">
-                <div>21:00–21:30</div>
-                <div>Return to hotel</div>
-                <div>Maihama to Otsuka</div>
-                <div>Keiyo Line from Maihama to Tokyo Station (¥230, 15 min), Yamanote Line to Otsuka (¥170, 10 min). Total: ¥400/person.</div>
-                <div></div>
-            </div>
-        </div>
-
-        <div id="2025-04-17" class="day-container hidden">
-            <h2>Day 6: Thursday, April 17</h2>
-            <div class="activity">
-                <div class="activity-header">Time</div>
-                <div class="activity-header">Activity</div>
-                <div class="activity-header">Location</div>
-                <div class="activity-header">Commuting Details</div>
-                <div class="activity-header">Notes</div>
-            </div>
-            <div class="activity">
-                <div>09:00–09:30</div>
-                <div>Travel to Shibuya</div>
-                <div>Otsuka to Shibuya</div>
-                <div>Yamanote Line from Otsuka to Shibuya (¥200, 20 min). Total: ¥200/person.</div>
-                <div></div>
-            </div>
-            <div class="activity">
-                <div>09:30–12:00</div>
-                <div>Explore Shibuya Crossing & Hachiko Statue</div>
-                <div>Shibuya</div>
-                <div>-</div>
-                <div>Group photos, soak in the energy.</div>
-            </div>
-            <div class="activity">
-                <div>12:00–12:15</div>
-                <div>Walk to Harajuku</div>
-                <div>Shibuya to Harajuku</div>
-                <div>15-minute walk (or Yamanote Line, ¥140, 2 min).</div>
-                <div></div>
-            </div>
-            <div class="activity">
-                <div>13:00–14:00</div>
-                <div>Visit Takeshita Street</div>
-                <div>Harajuku</div>
-                <div>-</div>
-                <div>Street food (crepes, cotton candy), shopping. Poom prepares to leave.</div>
-            </div>
-            <div class="activity">
-                <div>14:00</div>
-                <div>Poom leaves for NRT Terminal 1</div>
-                <div>Harajuku to NRT</div>
-                <div>Yamanote Line from Harajuku to Tokyo Station (¥170, 15 min), NEX to NRT (¥3,070, 1 hr). Total: ¥3,240.</div>
-                <div>Poom’s flight to Bangkok (BKK) at 17:00.</div>
-            </div>
-            <div class="activity">
-                <div>14:00–16:00</div>
-                <div>Remaining 4 (Pum, Noon, Nu, Pete) visit Meiji Jingu Shrine</div>
-                <div>Harajuku</div>
-                <div>Walk from Takeshita Street (5 min).</div>
-                <div>Peaceful shrine walk.</div>
-            </div>
-            <div class="activity">
-                <div>16:00–16:15</div>
-                <div>Travel to Shibuya</div>
-                <div>Harajuku to Shibuya</div>
-                <div>Yamanote Line from Harajuku to Shibuya (¥140, 2 min). Total: ¥140/person.</div>
-                <div></div>
-            </div>
-            <div class="activity">
-                <div>18:00</div>
-                <div>Dinner at Ichiran & Shibuya Sky</div>
-                <div>Shibuya</div>
-                <div>Walk from Shibuya Station (5 min).</div>
-                <div>Customizable ramen, then rooftop views (book Shibuya Sky tickets online).</div>
-            </div>
-            <div class="activity">
-                <div>20:00–20:30</div>
-                <div>Return to hotel</div>
-                <div>Shibuya to Otsuka</div>
-                <div>Yamanote Line from Shibuya to Otsuka (¥200, 20 min). Total: ¥200/person.</div>
-                <div></div>
-            </div>
-        </div>
-<div id="2025-04-18" class="day-container hidden">
-            <h2>Day 7: Friday, April 18</h2>
-            <div class="activity">
-                <div class="activity-header">Time</div>
-                <div class="activity-header">Activity</div>
-                <div class="activity-header">Location</div>
-                <div class="activity-header">Commuting Details</div>
-                <div class="activity-header">Notes</div>
-            </div>
-            <div class="activity">
-                <div>07:00–09:30</div>
-                <div>Rent a car and drive to Fuji Five Lakes</div>
-                <div>Tokyo to Fuji Five Lakes</div>
-                <div>~120 km, 2–2.5 hours via Chuo Expressway. Tolls: ~¥2,500 one way (est. ¥5,000 round trip). Rent from Takadanobaba or Ikebukuro (est. ¥20,000 for the day).</div>
-                <div></div>
-            </div>
-            <div class="activity">
-                <div>09:30–11:00</div>
-                <div>Explore Lake Kawaguchi</div>
-                <div>Lake Kawaguchi</div>
-                <div>-</div>
-                <div>Best views of Mount Fuji, visit Oishi Park for photos.</div>
-            </div>
-            <div class="activity">
-                <div>11:30–13:00</div>
-                <div>Drive to Lake Yamanaka, lunch</div>
-                <div>Lake Yamanaka</div>
-                <div>~15 km, 20 min drive. No tolls. Parking: ~¥500.</div>
-                <div>Largest lake, have lunch (try Hoto noodles).</div>
-            </div>
-            <div class="activity">
-                <div>13:30–15:00</div>
-                <div>Visit Lake Saiko</div>
-                <div>Lake Saiko</div>
-                <div>~20 km, 30 min drive. No tolls. Parking: ~¥500.</div>
-                <div>Scenic and quiet, explore Aokigahara Forest if time permits.</div>
-            </div>
-            <div class="activity">
-                <div>15:30–16:30</div>
-                <div>Drive to Lake Shoji</div>
-                <div>Lake Shoji</div>
-                <div>~10 km, 15 min drive. No tolls. Parking: ~¥500.</div>
-                <div>Smallest lake, great for a quick stop and photos of Mount Fuji.</div>
-            </div>
-            <div class="activity">
-                <div>17:00–18:00</div>
-                <div>Visit Lake Motosu</div>
-                <div>Lake Motosu</div>
-                <div>~15 km, 20 min drive. No tolls. Parking: ~¥500.</div>
-                <div>Deepest lake, iconic view of Mount Fuji (on the ¥1,000 bill).</div>
-            </div>
-            <div class="activity">
-                <div>18:00–20:30</div>
-                <div>Drive back to Tokyo, drop off car</div>
-                <div>Fuji Five Lakes to Tokyo</div>
-                <div>~120 km, 2–2.5 hours. Tolls: ~¥2,500 one way. Return the car at Takadanobaba or Ikebukuro.</div>
-                <div></div>
-            </div>
-            <div class="activity">
-                <div>20:30–21:00</div>
-                <div>Dinner near hotel</div>
-                <div>Otsuka</div>
-                <div>Yamanote Line from Takadanobaba to Otsuka (¥170, 5 min). Total: ¥170/person.</div>
-                <div>Local restaurant near Otsuka Station.</div>
-            </div>
-        </div>
-
-        <div id="2025-04-19" class="day-container hidden">
-            <h2>Day 8: Saturday, April 19</h2>
-            <div class="activity">
-                <div class="activity-header">Time</div>
-                <div class="activity-header">Activity</div>
-                <div class="activity-header">Location</div>
-                <div class="activity-header">Commuting Details</div>
-                <div class="activity-header">Notes</div>
-            </div>
-            <div class="activity">
-                <div>09:00–09:30</div>
-                <div>Travel to Akihabara</div>
-                <div>Otsuka to Akihabara</div>
-                <div>Yamanote Line from Otsuka to Akihabara (¥170, 10 min). Total: ¥170/person.</div>
-                <div></div>
-            </div>
-            <div class="activity">
-                <div>09:30–12:00</div>
-                <div>Shopping in Akihabara</div>
-                <div>Akihabara</div>
-                <div>-</div>
-                <div>Electronics, anime, and gaming merchandise (e.g., Animate, Yodobashi Camera).</div>
-            </div>
-            <div class="activity">
-                <div>12:00–12:30</div>
-                <div>Travel to Ginza</div>
-                <div>Akihabara to Ginza</div>
-                <div>Hibiya Line from Akihabara to Ginza (¥200, 10 min). Total: ¥200/person.</div>
-                <div></div>
-            </div>
-            <div class="activity">
-                <div>13:00–16:00</div>
-                <div>Shopping in Ginza</div>
-                <div>Ginza</div>
-                <div>-</div>
-                <div>Upscale stores, or affordable spots like Uniqlo flagship store.</div>
-            </div>
-            <div class="activity">
-                <div>16:00–16:30</div>
-                <div>Travel to Shibuya</div>
-                <div>Ginza to Shibuya</div>
-                <div>Ginza Line from Ginza to Shibuya (¥200, 15 min). Total: ¥200/person.</div>
-                <div></div>
-            </div>
-            <div class="activity">
-                <div>18:00</div>
-                <div>Farewell dinner at Sushiro</div>
-                <div>Shibuya</div>
-                <div>Walk from Shibuya Station (5 min).</div>
-                <div>Sushi conveyor belt restaurant for a fun group meal.</div>
-            </div>
-            <div class="activity">
-                <div>19:00–19:30</div>
-                <div>Return to hotel</div>
-                <div>Shibuya to Otsuka</div>
-                <div>Yamanote Line from Shibuya to Otsuka (¥200, 20 min). Total: ¥200/person.</div>
-                <div></div>
-            </div>
-        </div>
-<div id="2025-04-20" class="day-container hidden">
-            <h2>Day 9: Sunday, April 20</h2>
-            <div class="activity">
-                <div class="activity-header">Time</div>
-                <div class="activity-header">Activity</div>
-                <div class="activity-header">Location</div>
-                <div class="activity-header">Commuting Details</div>
-                <div class="activity-header">Notes</div>
-            </div>
-            <div class="activity">
-                <div>08:00–10:00</div>
-                <div>Breakfast & last-minute shopping</div>
-                <div>Otsuka/Shibuya</div>
-                <div>Walk around Otsuka or short trip to Shibuya if needed (Yamanote Line, ¥200, 20 min).</div>
-                <div>Light breakfast, shop at Don Quijote for souvenirs.</div>
-            </div>
-            <div class="activity">
-                <div>10:00–11:00</div>
-                <div>Head to NRT Terminal 2 via NEX</div>
-                <div>Otsuka to NRT</div>
-                <div>Yamanote Line from Otsuka to Tokyo Station (¥170, 10 min), NEX to NRT (¥3,070, 1 hr). Total: ¥3,240/person.</div>
-                <div>Pum, Noon, Nu check in for 12:10 flight.</div>
-            </div>
-            <div class="activity">
-                <div>11:00</div>
-                <div>Pete checks in for 13:00 flight</div>
-                <div>Narita Airport (NRT)</div>
-                <div>-</div>
-                <div>Say goodbyes. Note Pete’s short transfer in Shanghai—stay alert.</div>
-            </div>
-            <div class="activity">
-                <div>12:10</div>
-                <div>Pum, Noon, Nu depart</div>
-                <div>NRT to DMK</div>
-                <div>-</div>
-                <div>Arrive in Bangkok (DMK) at 17:00.</div>
-            </div>
-            <div class="activity">
-                <div>13:00</div>
-                <div>Pete departs</div>
-                <div>NRT to HKT</div>
-                <div>-</div>
-                <div>Arrive in Phuket (HKT) at 22:00, via Shanghai.</div>
+                <div class="notes">Try Sendai specialties like gyutan (grilled beef tongue) at Rikyu.</div>
             </div>
         </div>
     </div>
@@ -631,8 +349,19 @@
                 if (selectedDay) {
                     selectedDay.classList.remove('hidden');
                 }
+            } else {
+                // Optionally show the first day by default
+                const firstDay = document.getElementById('2025-04-12');
+                if (firstDay) {
+                    firstDay.classList.remove('hidden');
+                }
             }
         }
+
+        // Show the first day plan on load (optional)
+        document.addEventListener('DOMContentLoaded', function() {
+            showDayPlan('2025-04-12');
+        });
     </script>
 </body>
 </html>
