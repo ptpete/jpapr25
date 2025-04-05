@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sync Checkboxes</title>
-  <link rel="icon" href="favicon.ico">
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
   <style>
@@ -58,6 +57,10 @@
       const checkboxList = document.getElementById('checkboxList');
       checkboxList.innerHTML = ''; // Clear the list
 
+      if (data.length === 0) {
+        console.log('No checkboxes to display');
+      }
+
       data.forEach((checkboxData) => {
         const li = document.createElement('li');
         li.classList.add('checkbox-item');
@@ -81,8 +84,15 @@
     // Listen for changes in the database and update UI
     checkboxListRef.on('value', (snapshot) => {
       const checkboxesData = snapshot.val();
-      const data = Object.keys(checkboxesData).map(key => ({ id: key, ...checkboxesData[key] }));
-      renderCheckboxes(data);
+      console.log(checkboxesData);  // Log Firebase data to check if it's being retrieved correctly
+
+      if (checkboxesData) {
+        const data = Object.keys(checkboxesData).map(key => ({
+          id: key, 
+          ...checkboxesData[key]
+        }));
+        renderCheckboxes(data);
+      }
     });
 
     // Add some initial checkboxes to the database if none exist
