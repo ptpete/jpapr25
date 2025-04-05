@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkbox Sync</title>
+  <title>Sync Checkboxes</title>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
 </head>
 <body>
   <h1>Syncing Checkboxes Across Devices</h1>
-
+  
   <div id="checkboxes">
     <!-- Dynamically generated checkboxes will appear here -->
   </div>
@@ -17,7 +17,7 @@
   <button onclick="addCheckbox()">Add New Checkbox</button>
 
   <script>
-    // Firebase configuration (Replace with your config)
+    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyCAbCD5eLXKW-izbCmVOpA-9jAjcLSN3b4",
       authDomain: "jpapr25.firebaseapp.com",
@@ -31,7 +31,7 @@
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // Function to update the checkbox in the database
+    // Function to update checkbox state in the database
     function updateCheckbox(checkboxId, checkedState) {
       const checkboxRef = db.ref('checkboxes/' + checkboxId);
       checkboxRef.set({
@@ -39,15 +39,15 @@
       });
     }
 
-    // Function to add a new checkbox
+    // Function to add a new checkbox to the Firebase database
     function addCheckbox() {
-      const newCheckboxRef = db.ref('checkboxes').push(); // Create new checkbox
+      const newCheckboxRef = db.ref('checkboxes').push(); // Create a new checkbox with a unique ID
       newCheckboxRef.set({
         checked: false
       });
     }
 
-    // Function to create checkbox elements dynamically
+    // Function to create and display checkbox elements
     function createCheckboxElement(checkboxId, checked) {
       const checkboxElement = document.createElement('div');
       checkboxElement.innerHTML = `
@@ -56,22 +56,25 @@
       `;
       document.getElementById('checkboxes').appendChild(checkboxElement);
 
-      // Attach event listener to sync the checkbox state in the database
+      // Attach event listener to sync checkbox state with Firebase
       const checkbox = document.getElementById(checkboxId);
       checkbox.addEventListener('change', (event) => {
         updateCheckbox(checkboxId, event.target.checked);
       });
     }
 
-    // Function to fetch and display checkboxes from Firebase
+    // Function to load checkboxes from Firebase
     function loadCheckboxes() {
       const checkboxesRef = db.ref('checkboxes');
+      
+      // Listen for newly added checkboxes
       checkboxesRef.on('child_added', (snapshot) => {
         const checkboxId = snapshot.key;
         const checkedState = snapshot.val().checked;
         createCheckboxElement(checkboxId, checkedState);
       });
 
+      // Listen for changes to existing checkboxes
       checkboxesRef.on('child_changed', (snapshot) => {
         const checkboxId = snapshot.key;
         const checkedState = snapshot.val().checked;
@@ -82,7 +85,7 @@
       });
     }
 
-    // Load checkboxes when the page loads
+    // Load checkboxes when the page is loaded
     window.onload = loadCheckboxes;
   </script>
 </body>
