@@ -3,23 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Slider with Square Handle</title>
+  <title>Trip Itinerary</title>
   <link rel="icon" href="favicon.ico">
   <style>
     body {
       font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
       background-color: #f4f4f4;
+    }
+
+    .header {
+      text-align: center;
+      padding: 20px;
+      background-color: #4CAF50;
+      color: white;
     }
 
     .slider-container {
       width: 80%;
       max-width: 600px;
-      margin-top: 30px;
+      margin: 30px auto;
     }
 
     .slider {
@@ -44,7 +47,7 @@
       width: 20px;
       height: 20px;
       background: #4CAF50;
-      border-radius: 5px; /* Square shape */
+      border-radius: 5px;
       cursor: pointer;
     }
 
@@ -61,9 +64,59 @@
       font-size: 18px;
       margin-top: 10px;
     }
+
+    .itinerary {
+      width: 80%;
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .itinerary h2 {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .itinerary table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .itinerary th, .itinerary td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .itinerary th {
+      background-color: #f4f4f4;
+    }
+
+    .itinerary td {
+      background-color: #fff;
+    }
+
+    .itinerary .day-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .itinerary .note {
+      font-style: italic;
+      color: gray;
+    }
   </style>
 </head>
 <body>
+
+  <div class="header">
+    <h1>Trip Itinerary</h1>
+  </div>
 
   <div class="slider-container">
     <input type="range" min="1" max="9" value="1" class="slider" id="daySlider">
@@ -72,12 +125,74 @@
     </div>
   </div>
 
+  <div class="itinerary" id="itinerary">
+    <h2>Day 1: Sat, Apr 12</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Activity</th>
+          <th>Location</th>
+          <th>Commuting Details</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody id="day1">
+        <!-- Day 1 plan goes here -->
+        <tr>
+          <td>07:30</td>
+          <td>Poom arrives at NRT Terminal 1</td>
+          <td>Narita Airport (NRT)</td>
+          <td>Poom waits or takes airport shuttle to Terminal 2 (free, 10 min).</td>
+          <td>Poom waits to meet others.</td>
+        </tr>
+        <tr>
+          <td>07:55</td>
+          <td>Pum, Noon, Nu arrive at NRT T2</td>
+          <td>Narita Airport (NRT)</td>
+          <td>Group of 4 clears immigration, gets Suica/Pasmo cards (¥500 deposit + ¥2,000 top-up).</td>
+          <td>Prepare for NEX to Tokyo.</td>
+        </tr>
+        <tr>
+          <td>08:30–09:30</td>
+          <td>Group of 4 takes Narita Express (NEX) to Tokyo</td>
+          <td>NRT to Otsuka Station</td>
+          <td>NEX from NRT to Tokyo Station (¥3,070, 1 hr), then Yamanote Line to Otsuka (¥170, 10 min). Total: ¥3,240/person.</td>
+          <td>Check into Toyoko Inn Tokyo Yamanote-sen Otsuka-eki Kita-guchi No.2.</td>
+        </tr>
+        <!-- Add remaining rows for Day 1 -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Add similar sections for Day 2 to Day 9 -->
+
   <script>
     const slider = document.getElementById("daySlider");
     const dayValue = document.getElementById("dayValue");
+    const itinerary = document.getElementById("itinerary");
 
+    // Show content for the selected day
+    function showDay(day) {
+      const dayHeaders = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9"];
+      const dayPlans = [document.getElementById("day1"), /* Add day2, day3... elements here */];
+
+      // Set the header
+      itinerary.querySelector("h2").textContent = dayHeaders[day - 1];
+
+      // Hide all days
+      dayPlans.forEach((dayPlan, index) => {
+        dayPlan.style.display = index === day - 1 ? "table-row" : "none";
+      });
+    }
+
+    // Initial load
+    showDay(1);
+
+    // Update the day and content when slider is moved
     slider.oninput = function() {
       dayValue.textContent = this.value;
+      showDay(this.value);
     }
   </script>
 </body>
