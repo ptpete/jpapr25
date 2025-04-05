@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkbox Sync1111</title>
+    <title>Sync Checkboxes with Google Sheets</title>
     <script src="https://cdn.jsdelivr.net/npm/@googleapis/sheets@v4.0.0/dist/sheets.min.js"></script>
     <style>
         body {
@@ -22,7 +22,7 @@
 </head>
 <body>
 
-    <h1>Checkbox Sync with Google Sheets</h1>
+    <h1>Sync Checkboxes with Google Sheets</h1>
 
     <!-- Sync Now Button -->
     <button id="sync-now-btn">Sync Now</button>
@@ -32,8 +32,8 @@
 
     <script>
         // Google Sheets API Key and Sheet ID
-        const SHEET_ID = '1Drhe2Hh4e_Vmw8XMa8e7Oyh-4bOB178BoBYRF06n0Gk';
-        const API_KEY = 'AIzaSyCNxV6lXO282697QMTfh50Cmrl0OSKLW9Q';
+        const SHEET_ID = '1Drhe2Hh4e_Vmw8XMa8e7Oyh-4bOB178BoBYRF06n0Gk'; // Replace with your Sheet ID
+        const API_KEY = 'AIzaSyCNxV6lXO282697QMTfh50Cmrl0OSKLW9Q'; // Replace with your API key
 
         // The range of data in the Google Sheet (e.g., A2:B, assumes "checkbox" data is in columns A and B)
         const RANGE = 'Sheet1!A2:B';
@@ -42,6 +42,12 @@
         async function loadCheckboxes() {
             const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`);
             const data = await response.json();
+
+            if (!data.values) {
+                console.error('No data found in the sheet.');
+                return;
+            }
+
             const checkboxes = data.values || [];
 
             // Clear the existing checkboxes in the UI
@@ -83,6 +89,7 @@
                 values: [[isChecked ? 'TRUE' : 'FALSE']]
             };
 
+            // Update the value in Google Sheets
             const response = await fetch(
                 `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${range}?valueInputOption=RAW&key=${API_KEY}`,
                 {
