@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Slider Example</title>
+  <title>Smooth Slider Example</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -29,6 +29,7 @@
       outline: none;
       -webkit-appearance: none;
       appearance: none;
+      transition: all 0.1s ease-in-out; /* Smooth background change */
     }
 
     .slider::-webkit-slider-thumb {
@@ -39,7 +40,7 @@
       background: #4CAF50;
       border-radius: 50%;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.3s ease-out; /* Smooth thumb expansion */
     }
 
     .slider::-moz-range-thumb {
@@ -48,20 +49,20 @@
       background: #4CAF50;
       border-radius: 50%;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.3s ease-out;
     }
 
     .slider-value {
       font-size: 1.5em;
       margin-top: 10px;
+      font-weight: bold;
     }
-
   </style>
 </head>
 <body>
 
   <div class="slider-container">
-    <h1>Slider with Elastic Effect</h1>
+    <h1>Day Selector</h1>
     <input type="range" min="1" max="9" value="1" class="slider" id="daySlider">
     <div class="slider-value" id="sliderValue">Day 1</div>
   </div>
@@ -73,10 +74,13 @@
     slider.addEventListener('input', function() {
       let dayValue = slider.value;
       valueDisplay.textContent = `Day ${dayValue}`;
-      // Elastic effect for the thumb when dragging
-      slider.style.transform = `scale(1.2)`;  // Slightly enlarge the thumb
+      
+      // Apply smooth elastic effect on the slider thumb while dragging
+      slider.style.transform = 'scale(1.1)';
+      
+      // Delay the reset of the scale back to normal after drag is done
       setTimeout(() => {
-        slider.style.transform = `scale(1)`;  // Restore thumb size after a short time
+        slider.style.transform = 'scale(1)';
       }, 150);
     });
   </script>
