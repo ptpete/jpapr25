@@ -24,11 +24,45 @@
         .slider-container {
             display: flex;
             justify-content: center;
+            align-items: center;
             margin: 20px;
         }
         .slider {
             width: 80%;
             max-width: 600px;
+            height: 8px;
+            appearance: none;
+            background-color: #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: background 0.3s ease;
+        }
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background-color: #333;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background-color: #333;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .slider::-ms-thumb {
+            width: 20px;
+            height: 20px;
+            background-color: #333;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .slider-label {
+            margin-left: 10px;
+            font-size: 18px;
+            font-weight: bold;
         }
         .day-container {
             display: none;
@@ -67,7 +101,7 @@
 
     <div class="slider-container">
         <input type="range" min="1" max="9" value="1" class="slider" id="daySlider">
-        <p id="dayLabel">Day 1</p>
+        <p id="dayLabel" class="slider-label">Day 1</p>
     </div>
 
     <div class="day-container active" id="day1">
@@ -94,65 +128,10 @@
                 <td>Group clears immigration, gets Suica/Pasmo cards.</td>
                 <td>Prepare for NEX to Tokyo.</td>
             </tr>
-            <!-- Add more rows for Day 1 here -->
         </table>
     </div>
 
-    <div class="day-container" id="day2">
-        <h2>Day 2 - Sunday, April 13</h2>
-        <table class="itinerary-table">
-            <!-- Add itinerary details for Day 2 -->
-        </table>
-    </div>
-
-    <div class="day-container" id="day3">
-        <h2>Day 3 - Monday, April 14</h2>
-        <table class="itinerary-table">
-            <!-- Add itinerary details for Day 3 -->
-        </table>
-    </div>
-
-    <div class="day-container" id="day4">
-        <h2>Day 4 - Tuesday, April 15</h2>
-        <table class="itinerary-table">
-            <!-- Add itinerary details for Day 4 -->
-        </table>
-    </div>
-
-    <div class="day-container" id="day5">
-        <h2>Day 5 - Wednesday, April 16</h2>
-        <table class="itinerary-table">
-            <!-- Add itinerary details for Day 5 -->
-        </table>
-    </div>
-
-    <div class="day-container" id="day6">
-        <h2>Day 6 - Thursday, April 17</h2>
-        <table class="itinerary-table">
-            <!-- Add itinerary details for Day 6 -->
-        </table>
-    </div>
-
-    <div class="day-container" id="day7">
-        <h2>Day 7 - Friday, April 18</h2>
-        <table class="itinerary-table">
-            <!-- Add itinerary details for Day 7 -->
-        </table>
-    </div>
-
-    <div class="day-container" id="day8">
-        <h2>Day 8 - Saturday, April 19</h2>
-        <table class="itinerary-table">
-            <!-- Add itinerary details for Day 8 -->
-        </table>
-    </div>
-
-    <div class="day-container" id="day9">
-        <h2>Day 9 - Sunday, April 20</h2>
-        <table class="itinerary-table">
-            <!-- Add itinerary details for Day 9 -->
-        </table>
-    </div>
+    <!-- Add Day 2 to Day 9 containers here similarly -->
 
     <footer>
         <p>&copy; 2025 Trip Itinerary. All rights reserved.</p>
