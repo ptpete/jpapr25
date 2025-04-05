@@ -1,67 +1,98 @@
+// Define Google Sheets API settings
+const SHEET_ID = '1Drhe2Hh4e_Vmw8XMa8e7Oyh-4bOB178BoBYRF06n0Gk'; // Your Google Sheets ID
+const API_KEY = 'AIzaSyCNxV6lXO282697QMTfh50Cmrl0OSKLW9Q'; // Your API key
 
-  // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyCAbCD5eLXKW-izbCmVOpA-9jAjcLSN3b4",
-    authDomain: "jpapr25.firebaseapp.com",
-    databaseURL: "https://jpapr25-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "jpapr25",
-    storageBucket: "jpapr25.firebasestorage.app",
-    messagingSenderId: "664046829915",
-    appId: "1:664046829915:web:7d16ace7d82bf918295a7e"
-};
-
-  // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-const database = firebase.database(app);
-
-// DOM elements
-const checkboxListDiv = document.getElementById("checkbox-list");
-const addCheckboxBtn = document.getElementById("add-checkbox-btn");
-
-// Reference to the database location for 'checkboxes'
-const checkboxRef = database.ref('checkboxes');
-
-// Listen for changes to the 'checkboxes' node in Firebase
-checkboxRef.on('value', (snapshot) => {
-  const data = snapshot.val();
-  if (data) {
-    // Clear the existing checkbox list
-    checkboxListDiv.innerHTML = '';
-
-    // Loop through the checkboxes data and display them
-    Object.keys(data).forEach(key => {
-      const checkboxData = data[key];
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.checked = checkboxData.checked;
-      checkbox.addEventListener("change", () => {
-        // Update the checked state in Firebase when the checkbox is changed
-        checkboxRef.child(key).update({
-          checked: checkbox.checked
-        });
-      });
-
-      const label = document.createElement("label");
-      label.textContent = `Checkbox ${key}`;
-
-      // Append the checkbox and label to the list
-      checkboxListDiv.appendChild(checkbox);
-      checkboxListDiv.appendChild(label);
-      checkboxListDiv.appendChild(document.createElement("br"));
+// Initialize Google API client
+function initClient() {
+    gapi.client.init({
+        apiKey: API_KEY,
+        discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
+    }).then(function () {
+        // Now the client is initialized, we can start fetching data
+        loadCheckboxes();
     });
-  }
-});
+}
 
-// Add new checkbox to Firebase
-addCheckboxBtn.addEventListener("click", () => {
-  const newCheckboxRef = checkboxRef.push();
-  newCheckboxRef.set({
-    checked: false
-  });
+// Load Google API client
+gapi.load('client', initClient);
+
+// Function to load checkboxes from Google Sheets
+function loadCheckboxes() {
+    const range = "Sheet1!A2:B"; // Sheet1 is the name of your sheet, adjust if necessary
+
+    gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: SHEET_ID,
+        range: range
+    }).then(function (response) {
+        const data = response.result.values;
+        const checkboxListDiv = document.getElementById("checkbox-list");
+
+        if (data) {
+            data.forEach((row, index) => {
+                const checkboxName = row[0];
+                const checkedStatus = row[1] === 'TRUE'; // Convert string to boolean
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.checked = checkedStatus;
+                checkbox.id = `checkbox${index + 1}`;
+
+                checkbox.addEventListener("change", () => {
+                    updateCheckboxStatus(index + 1, checkbox.checked);
+                });
+
+                const label = document.createElement("label");
+                label.textContent = checkboxName;
+
+                checkboxListDiv.appendChild(checkbox);
+                checkboxListDiv.appendChild(label);
+                checkboxListDiv.appendChild(document.createElement("br"));
+            });
+        }
+    });
+}
+
+// Function to update checkbox status in Google Sheets
+function updateCheckboxStatus(index, status) {
+    const range = `Sheet1!B${index + 1}`; // Adjust the range based on your row numbers
+    const value = status ? 'TRUE' : 'FALSE';
+
+    const params = {
+        spreadsheetId: SHEET_ID,
+        range: range,
+        valueInputOption: 'RAW',
+        resource: {
+            values: [[value]]
+        }
+    };
+
+    gapi.client.sheets.spreadsheets.values.update(params).then((response) => {
+        console.log("Checkbox status updated");
+    });
+}
+
+// Add new checkbox (for testing)
+document.getElementById("add-checkbox-btn").addEventListener("click", function () {
+    const newIndex = document.querySelectorAll('input[type="checkbox"]').length + 1;
+    const newCheckboxName = `Checkbox ${newIndex}`;
+    const newCheckedStatus = 'FALSE'; // Default status
+
+    // Add new row in Google Sheets with default status
+    const range = `Sheet1!A${newIndex + 1}:B${newIndex + 1}`;
+    const values = [
+        [newCheckboxName, newCheckedStatus]
+    ];
+
+    const params = {
+        spreadsheetId: SHEET_ID,
+        range: range,
+        valueInputOption: 'RAW',
+        resource: {
+            values: values
+        }
+    };
+
+    gapi.client.sheets.spreadsheets.values.update(params).then(() => {
+        loadCheckboxes(); // Reload checkboxes after adding
+    });
 });
