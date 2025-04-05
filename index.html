@@ -3,166 +3,361 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Sheets Checkbox Sync (OAuth 2.0 Client-Side)</title>
+    <title>Japan Travel Plan - April 2025</title>
     <style>
         body {
             font-family: sans-serif;
             margin: 20px;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
         }
-        .checkbox-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
+        h1, h2, h3 {
+            color: #0056b3;
         }
-        .checkbox-row label {
-            margin-left: 10px;
+        .day-container {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        #status-message {
-            margin-top: 20px;
+        .activity {
+            display: grid;
+            grid-template-columns: 15% 25% 20% 30% 10%;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .activity:last-child {
+            border-bottom: none;
+        }
+        .activity-header {
             font-weight: bold;
         }
-        #authorize-button {
+        .notes {
+            font-style: italic;
+            color: #777;
+        }
+        .date-selector {
+            margin-bottom: 20px;
+        }
+        #plan-container {
+            /* Container for dynamically shown plan */
+        }
+        .hidden {
             display: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h1>Checkbox Status from Google Sheets (OAuth 2.0)</h1>
+    <h1>Japan Travel Plan - April 2025</h1>
 
-    <button id="authorize-button" onclick="handleAuthClick()">Authorize Google Sheets</button>
-    <div id="checkbox-container"></div>
-    <div id="status-message"></div>
+    <div class="date-selector">
+        <label for="select-date">View Plan for:</label>
+        <select id="select-date" onchange="showDayPlan(this.value)">
+            <option value="">-- Select a Date --</option>
+            <option value="2025-04-12">Saturday, April 12</option>
+            <option value="2025-04-13">Sunday, April 13</option>
+            <option value="2025-04-14">Monday, April 14</option>
+            <option value="2025-04-15">Tuesday, April 15</option>
+            <option value="2025-04-16">Wednesday, April 16</option>
+            <option value="2025-04-17">Thursday, April 17</option>
+            <option value="2025-04-18">Friday, April 18</option>
+            <option value="2025-04-19">Saturday, April 19</option>
+            <option value="2025-04-20">Sunday, April 20</option>
+        </select>
+    </div>
 
-    <script src="https://apis.google.com/js/api.js"></script>
-    <script>
-        const CLIENT_ID = '699729833405-df3jlrnlu218661fjggnv8fd2kj8rh2o.apps.googleusercontent.com'; // **REPLACE THIS WITH YOUR ACTUAL CLIENT ID IF DIFFERENT**
-        const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
-        const SHEET_ID = '1Drhe2Hh4e_Vmw8XMa8e7Oyh-4bOB178BoBYRF06n0Gk'; // Your provided Sheet ID
-        const SHEET_NAME = 'Sheet1';
-        const NAME_COLUMN = 'A';
-        const STATUS_COLUMN = 'B';
-        const START_ROW = 2;
+    <div id="plan-container">
+        <div id="2025-04-12" class="day-container hidden">
+            <h2>Day 1: Saturday, April 12</h2>
+            <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
+            </div>
+            <div class="activity">
+                <div>07:30</div>
+                <div>Poom arrives at NRT Terminal 1</div>
+                <div>Narita Airport (NRT)</div>
+                <div>Poom waits or takes airport shuttle to Terminal 2 (free, 10 min).</div>
+                <div>Poom waits to meet others.</div>
+            </div>
+            <div class="activity">
+                <div>07:55</div>
+                <div>Pum, Noon, Nu arrive at NRT T2</div>
+                <div>Narita Airport (NRT)</div>
+                <div>Group of 4 clears immigration, gets Suica/Pasmo cards (¥500 deposit + ¥2,000 top-up). Prepare for NEX to Tokyo.</div>
+                <div></div>
+            </div>
+            <div class="activity">
+                <div>08:30–09:30</div>
+                <div>Group of 4 takes Narita Express (NEX) to Tokyo</div>
+                <div>NRT to Otsuka Station</div>
+                <div>NEX from NRT to Tokyo Station (¥3,070, 1 hr), then Yamanote Line to Otsuka (¥170, 10 min). Total: ¥3,240/person.</div>
+                <div>Check into Toyoko Inn Tokyo Yamanote-sen Otsuka-eki Kita-guchi No.2.</div>
+            </div>
+            <div class="activity">
+                <div>12:00</div>
+                <div>Pete arrives at NRT Terminal 2</div>
+                <div>Narita Airport (NRT)</div>
+                <div>Pete takes NEX to Tokyo Station (¥3,070, 1 hr), then Yamanote Line to Otsuka (¥170, 10 min). Total: ¥3,240.</div>
+                <div>Pete meets group at hotel or Otsuka Station.</div>
+            </div>
+            <div class="activity">
+                <div>13:30–17:00</div>
+                <div>Light exploring at Senso-ji Temple & Nakamise-dori</div>
+                <div>Asakusa</div>
+                <div>Yamanote Line from Otsuka to Ueno (¥170, 5 min), then Ginza Line to Asakusa (¥170, 5 min). Total: ¥340/person.</div>
+                <div>Share snacks (ningyoyaki, mochi).</div>
+            </div>
+            <div class="activity">
+                <div>17:00–18:00</div>
+                <div>Travel to Omotesando for dinner</div>
+                <div>Asakusa to Omotesando</div>
+                <div>Ginza Line from Asakusa to Ueno (¥170, 5 min), Yamanote Line to Harajuku (¥170, 15 min). Total: ¥340/person.</div>
+                <div>Walk to Hamburg Yoshi Omotesando (5 min from Harajuku Station).</div>
+            </div>
+            <div class="activity">
+                <div>18:00–20:00</div>
+                <div>Dinner at Hamburg Yoshi Omotesando</div>
+                <div>Minato City (Omotesando)</div>
+                <div>-</div>
+                <div>Charcoal-grilled hamburg specialty.</div>
+            </div>
+            <div class="activity">
+                <div>20:00–20:30</div>
+                <div>Return to hotel</div>
+                <div>Omotesando to Otsuka</div>
+                <div>Yamanote Line from Harajuku to Otsuka (¥170, 15 min). Total: ¥170/person.</div>
+                <div>Rest after a long travel day.</div>
+            </div>
+        </div>
 
-        let gapiInited = false;
-        let gisInited = false;
+        <div id="2025-04-13" class="day-container hidden">
+            <h2>Day 2: Sunday, April 13</h2>
+            <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
+            </div>
+            <div class="activity">
+                <div>07:00</div>
+                <div>Pick up rental car at Takadanobaba Station Store</div>
+                <div>Takadanobaba, Shinjuku</div>
+                <div>Yamanote Line from Otsuka to Takadanobaba (¥170, 5 min). Total: ¥170/person.</div>
+                <div>Toyota Serena e-Power, reserved for April 13–15.</div>
+            </div>
+            <div class="activity">
+                <div>07:30–11:30</div>
+                <div>Drive to Sendai</div>
+                <div>Tokyo to Sendai</div>
+                <div>~350 km, 4–4.5 hours via Tohoku Expressway. Tolls: ~¥3,750 one way (included in rental).</div>
+                <div>Stop for a break if needed.</div>
+            </div>
+            <div class="activity">
+                <div>11:30–12:30</div>
+                <div>Arrive in Sendai, check into hotel</div>
+                <div>Toyoko Inn Sendai Higashi-guchi No.2</div>
+                <div>-</div>
+                <div>Quick rest after the drive.</div>
+            </div>
+            <div class="activity">
+                <div>12:30–13:00</div>
+                <div>Walk to PARCO Sendai</div>
+                <div>Sendai Station to PARCO</div>
+                <div>5-minute walk from Sendai Station (Toyoko Inn is near the station).</div>
+                <div></div>
+            </div>
+            <div class="activity">
+                <div>13:00–16:00</div>
+                <div>Visit Pokémon Center Tohoku at PARCO Sendai</div>
+                <div>Sendai (PARCO Sendai)</div>
+                <div>-</div>
+                <div>Shop for Pokémon merchandise, take photos.</div>
+            </div>
+            <div class="activity">
+                <div>16:00–16:30</div>
+                <div>Walk to Jozenji-dori Avenue</div>
+                <div>PARCO to Jozenji-dori</div>
+                <div>10-minute walk from PARCO Sendai.</div>
+                <div></div>
+            </div>
+            <div class="activity">
+                <div>16:30–18:00</div>
+                <div>Explore Sendai: Jozenji-dori Avenue</div>
+                <div>Sendai</div>
+                <div>-</div>
+                <div>Stroll along the tree-lined avenue, see zelkova trees and sculptures.</div>
+            </div>
+            <div class="activity">
+                <div>18:00–19:00</div>
+                <div>Walk back to Sendai Station area</div>
+                <div>Jozenji-dori to Sendai Stn</div>
+                <div>15-minute walk.</div>
+                <div></div>
+            </div>
+            <div class="activity">
+                <div>19:00</div>
+                <div>Dinner at a local restaurant</div>
+                <div>Sendai</div>
+                <div>-</div>
+                <div>Try Sendai specialties like gyutan (grilled beef tongue) at Rikyu.</div>
+            </div>
+        </div>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            gapi.load('client', initClient);
-        });
+        <div id="2025-04-14" class="day-container hidden">
+            <h2>Day 3: Monday, April 14</h2>
+            <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
+            </div>
+            <div class="activity">
+                <div>09:00–09:30</div>
+                <div>Drive to Sendai Castle (Aoba Castle)</div>
+                <div>Sendai Station to Aoba Castle</div>
+                <div>~5 km, 15 min drive. No tolls. Parking: ~¥500.</div>
+                <div></div>
+            </div>
+            <div class="activity">
+                <div>09:30–12:00</div>
+                <div>Visit Sendai Castle (Aoba Castle)</div>
+                <div>Sendai</div>
+                <div>-</div>
+                <div>Historical site with views of Sendai. Statue of Date Masamune.</div>
+            </div>
+            <div class="activity">
+                <div>12:00–12:30</div>
+                <div>Drive to Sendai Mediatheque</div>
+                <div>Aoba Castle to Mediatheque</div>
+                <div>~4 km, 15 min drive. No tolls. Parking: ~¥500.</div>
+                <div></div>
+            </div>
+            <div class="activity">
+                <div>12:30–14:00</div>
+                <div>Lunch and explore Sendai Mediatheque</div>
+                <div>Sendai</div>
+                <div>-</div>
+                <div>Modern library with unique architecture, good for a quick visit.</div>
+            </div>
+            <div class="activity">
+                <div>14:00–14:30</div>
+                <div>Drive to Zuihoden Mausoleum</div>
+                <div>Mediatheque to Zuihoden</div>
+                <div>~3 km, 10 min drive. No tolls. Parking: ~¥500.</div>
+                <div></div>
+            </div>
+            <div class="activity">
+                <div>14:30–17:00</div>
+                <div>Visit Zuihoden Mausoleum</div>
+                <div>Sendai</div>
+                <div>-</div>
+                <div>Mausoleum of Date Masamune, beautifully decorated.</div>
+            </div>
+            <div class="activity">
+                <div>17:00–17:30</div>
+                <div>Drive back to Sendai Station area</div>
+                <div>Zuihoden to Sendai Stn</div>
+                <div>~5 km, 15 min drive. No tolls.</div>
+                <div></div>
+            </div>
+            <div class="activity">
+                <div>18:00</div>
+                <div>Dinner at a local izakaya</div>
+                <div>Sendai</div>
+                <div>-</div>
+                <div>Try local sake and seafood dishes near Sendai Station.</div>
+            </div>
+        </div>
 
-        function initClient() {
-            gapi.client.init({
-                clientId: CLIENT_ID,
-                scope: SCOPES,
-                discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-            }).then(() => {
-                gapiInited = true;
-                checkAuth();
-            }).catch(error => {
-                console.error('Error initializing gapi:', error);
-                statusMessage.textContent = 'Error initializing Google API client.';
-            });
-        }
+        <div id="2025-04-15" class="day-container hidden">
+            <h2>Day 4: Tuesday, April 15</h2>
+            <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
+            </div>
+            <div class="activity">
+                <div>07:00–11:30</div>
+                <div>Drive back to Tokyo</div>
+                <div>Sendai to Tokyo</div>
+                <div>~350 km, 4–4.5 hours via Tohoku Expressway. Tolls: ~¥3,750 one way (included in rental).</div>
+                <div>Stop for a break if needed.</div>
+            </div>
+            <div class="activity">
+                <div>11:30–12:30</div>
+                <div>Drop off car at Takadanobaba Station Store</div>
+                <div>Takadanobaba, Shinjuku</div>
+                <div>Yamanote Line from Takadanobaba to Otsuka (¥170, 5 min). Total: ¥170/person.</div>
+                <div>Return the Toyota Serena.</div>
+            </div>
+            <div class="activity">
+                <div>13:00–13:30</div>
+                <div>Travel to Ueno</div>
+                <div>Otsuka to Ueno</div>
+                <div>Yamanote Line from Otsuka to Ueno (¥170, 5 min). Total: ¥170/person.</div>
+                <div></div>
+            </div>
+            <div class="activity">
+                <div>13:30–16:00</div>
+                <div>Visit Ueno Park (Tokyo National Museum or Zoo)</div>
+                <div>Ueno</div>
+                <div>-</div>
+                <div>Relax in the park, see late cherry blossoms if any.</div>
+            </div>
+            <div class="activity">
+                <div>16:00–16:30</div>
+                <div>Travel to Shinjuku</div>
+                <div>Ueno to Shinjuku</div>
+                <div>Yamanote Line from Ueno to Shinjuku (¥200, 15 min). Total: ¥200/person.</div>
+                <div></div>
+            </div>
+            <div class="activity">
+                <div>18:00</div>
+                <div>Dinner at Omoide Yokocho</div>
+                <div>Shinjuku</div>
+                <div>Walk from Shinjuku Station (5 min).</div>
+                <div>Yakitori and drinks in Memory Lane.</div>
+            </div>
+            <div class="activity">
+                <div>18:30–19:00</div>
+                <div>Return to hotel</div>
+                <div>Shinjuku to Otsuka</div>
+                <div>Yamanote Line from Shinjuku to Otsuka (¥170, 10 min). Total: ¥170/person.</div>
+                <div></div>
+            </div>
+        </div>
 
-        function checkAuth() {
-            gapi.auth2.getAuthInstance().isSignedIn.listen(updateSignInStatus);
-            updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-        }
-
-        function updateSignInStatus(isSignedIn) {
-            if (isSignedIn) {
-                console.log('User signed in.');
-                document.getElementById('authorize-button').style.display = 'none';
-                loadCheckboxes();
-            } else {
-                console.log('User not signed in.');
-                document.getElementById('authorize-button').style.display = 'block';
-                statusMessage.textContent = 'Please authorize to access Google Sheets.';
-            }
-        }
-
-        function handleAuthClick() {
-            gapi.auth2.getAuthInstance().signIn();
-        }
-
-        function updateCheckboxStatus(index, isChecked) {
-            if (!gapiInited || !gapi.client.sheets || !gapi.auth2.getAuthInstance().isSignedIn.get()) {
-                console.error('Google Sheets API not initialized or user not signed in.');
-                statusMessage.textContent = 'Not authorized to update.';
-                return;
-            }
-
-            statusMessage.textContent = `Updating checkbox at index ${index} to ${isChecked}...`;
-            const rowIndexInSheet = START_ROW + index;
-            const range = `${SHEET_NAME}!${STATUS_COLUMN}${rowIndexInSheet}`;
-            const value = [[isChecked.toString().toUpperCase()]];
-
-            gapi.client.sheets.spreadsheets.values.update({
-                spreadsheetId: SHEET_ID,
-                range: range,
-                valueInputOption: 'USER_ENTERED',
-                value: value
-            }).then((response) => {
-                statusMessage.textContent = `Checkbox at index ${index} updated successfully.`;
-                console.log('Update response:', response);
-            }, (error) => {
-                statusMessage.textContent = `Error updating checkbox at index ${index}: ${error.result.error.message}`;
-                console.error('Error updating Google Sheet:', error);
-            });
-        }
-
-        function loadCheckboxes() {
-            if (!gapiInited || !gapi.client.sheets || !gapi.auth2.getAuthInstance().isSignedIn.get()) {
-                console.error('Google Sheets API not initialized or user not signed in.');
-                statusMessage.textContent = 'Not authorized to load data.';
-                return;
-            }
-
-            statusMessage.textContent = 'Loading checkboxes...';
-            const range = `${SHEET_NAME}!${NAME_COLUMN}${START_ROW}:${STATUS_COLUMN}`;
-
-            gapi.client.sheets.spreadsheets.values.get({
-                spreadsheetId: SHEET_ID,
-                range: range,
-            }).then((response) => {
-                const data = response.result.values;
-                checkboxContainer.innerHTML = '';
-                if (data && data.length > 0) {
-                    data.forEach((row, index) => {
-                        const checkboxName = row[0];
-                        const checkedStatus = row[1] === 'TRUE';
-
-                        const checkboxDiv = document.createElement('div');
-                        checkboxDiv.classList.add('checkbox-row');
-
-                        const checkbox = document.createElement('input');
-                        checkbox.type = 'checkbox';
-                        checkbox.id = checkboxName.toLowerCase().replace(/\s+/g, '-');
-                        checkbox.checked = checkedStatus;
-                        checkbox.addEventListener('change', function() {
-                            updateCheckboxStatus(index, this.checked);
-                        });
-
-                        const label = document.createElement('label');
-                        label.setAttribute('for', checkbox.id);
-                        label.textContent = checkboxName;
-
-                        checkboxDiv.appendChild(checkbox);
-                        checkboxDiv.appendChild(label);
-                        checkboxContainer.appendChild(checkboxDiv);
-                    });
-                    statusMessage.textContent = 'Checkboxes loaded.';
-                } else {
-                    statusMessage.textContent = 'No checkbox data found in the Google Sheet.';
-                }
-            }, (error) => {
-                statusMessage.textContent = `Error loading checkboxes: ${error.result.error.message}`;
-                console.error('Error fetching Google Sheet data:', error);
-            });
-        }
-    </script>
-</body>
-</html>
+        <div id="2025-04-16" class="day-container hidden">
+            <h2>Day 5: Wednesday, April 16</h2>
+            <div class="activity">
+                <div class="activity-header">Time</div>
+                <div class="activity-header">Activity</div>
+                <div class="activity-header">Location</div>
+                <div class="activity-header">Commuting Details</div>
+                <div class="activity-header">Notes</div>
+            </div>
+            <div class="activity">
+                <div>08:00–08:30</div>
+                <div>Travel to Tokyo Disneyland</div>
+                <div>Otsuka to Maihama</div>
+                <div>Yamanote Line from Otsuka to Tokyo Station (¥170, 10 min), then Keiyo Line to Maihama (¥230, 15 min). Total: ¥400/person.</div>
+                <div>Book Disneyland tickets in advance.</div>
+            </div>
+            <div class="activity">
+                <div>08:30–14:00</div>
+                <div>Tokyo Disneyland or DisneySea</div>
+                <div>Maihama (Disneyland)</div>
+                <div>-</div>
+                <div>Rides, parades, snacks. All 5 together.</div>
+            </div>
