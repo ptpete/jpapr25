@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkbox Sync</title>
+    <title>Checkbox Sync1111</title>
     <script src="https://cdn.jsdelivr.net/npm/@googleapis/sheets@v4.0.0/dist/sheets.min.js"></script>
     <style>
         body {
@@ -74,10 +74,10 @@
             });
         }
 
-        // Function to handle changes in checkboxes
+        // Function to handle changes in checkboxes and update Google Sheets
         async function handleCheckboxChange(checkboxId, isChecked) {
-            const checkboxIndex = checkboxId.split('-')[1];
-            const range = `Sheet1!B${parseInt(checkboxIndex) + 2}`;
+            const checkboxIndex = checkboxId.split('-')[1] + 2; // Google Sheets starts from row 2
+            const range = `Sheet1!B${checkboxIndex}`;
 
             const body = {
                 values: [[isChecked ? 'TRUE' : 'FALSE']]
