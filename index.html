@@ -3,120 +3,144 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Japan Trip Itinerary</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <title>Japan Trip Itinerary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* General Body Style */
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #f7f7f7;
-      color: #333;
+    /* Global Reset */
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8f8f8;
+      color: #333;
       line-height: 1.6;
+      padding-top: 40px;
     }
 
-    /* Header Styling */
     header {
-      background-color: #0044cc;
-      color: white;
       text-align: center;
-      padding: 30px 20px;
+      background-color: #1a1a1a;
+      color: white;
+      padding: 60px 20px;
+      margin-bottom: 40px;
     }
 
     header h1 {
-      margin: 0;
       font-size: 2.5rem;
+      font-weight: 600;
     }
 
     header p {
       font-size: 1.2rem;
-    }
-
-    /* Tab Container */
-    .tabs {
-      display: flex;
-      border-bottom: 2px solid #0044cc;
-      margin-top: 30px;
-    }
-
-    .tab {
-      flex: 1;
-      padding: 15px;
-      text-align: center;
-      background-color: #f1f1f1;
-      cursor: pointer;
       font-weight: 500;
     }
 
-    .tab:hover {
-      background-color: #d1d1d1;
+    /* Tab Navigation */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #ccc;
     }
 
+    .tab {
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #777;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.3s;
+    }
+
+    .tab:hover,
     .tab.active {
-      background-color: #0044cc;
-      color: white;
+      color: #1a1a1a;
+      border-bottom: 2px solid #1a1a1a;
+    }
+
+    /* Content */
+    .tab-content {
+      display: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+      opacity: 1;
     }
 
     /* Table Styling */
     table {
       width: 100%;
+      margin: 0 auto;
       border-collapse: collapse;
-      margin-top: 20px;
-      background-color: white;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
       border-radius: 8px;
       overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     }
 
     th, td {
-      padding: 12px;
+      padding: 15px;
       text-align: left;
-      border-bottom: 1px solid #ddd;
+      font-size: 1rem;
+      color: #333;
     }
 
     th {
-      background-color: #0044cc;
+      background-color: #1a1a1a;
       color: white;
-      font-weight: bold;
+      font-weight: 600;
     }
 
     td {
-      color: #555;
+      background-color: #f9f9f9;
     }
 
-    .commute {
-      font-size: 0.9rem;
-      color: #888;
-      margin-top: 10px;
+    tr:hover td {
+      background-color: #f1f1f1;
     }
 
-    /* Button Styling */
+    /* Button */
     .btn {
       display: inline-block;
-      background-color: #0044cc;
+      padding: 12px 25px;
+      background-color: #1a1a1a;
       color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
       text-decoration: none;
-      margin-top: 20px;
       font-weight: 500;
+      border-radius: 5px;
+      margin-top: 40px;
+      transition: background-color 0.3s;
     }
 
     .btn:hover {
-      background-color: #0033aa;
+      background-color: #333;
     }
 
     /* Mobile Responsive */
     @media (max-width: 768px) {
       .tabs {
         flex-direction: column;
+        align-items: center;
       }
+
       .tab {
-        padding: 12px;
+        padding: 10px 20px;
+        font-size: 1rem;
       }
+
       table {
         font-size: 0.9rem;
+      }
+
+      .btn {
+        padding: 10px 20px;
       }
     }
   </style>
@@ -124,11 +148,12 @@
 <body>
 
   <header>
-    <h1>My Japan Trip Itinerary</h1>
-    <p>Explore the details of my upcoming adventure in Japan!</p>
+    <h1>Japan Trip Itinerary</h1>
+    <p>Explore the full details of our planned adventure in Japan.</p>
   </header>
 
   <div class="container">
+
     <!-- Tab Navigation -->
     <div class="tabs">
       <div class="tab active" onclick="showTab(1)">Day 1</div>
@@ -136,8 +161,8 @@
       <div class="tab" onclick="showTab(3)">Day 3</div>
     </div>
 
-    <!-- Day 1 Content -->
-    <div class="tab-content" id="day-1">
+    <!-- Day 1 Tab Content -->
+    <div class="tab-content active" id="day-1">
       <table>
         <thead>
           <tr>
@@ -170,8 +195,8 @@
       </table>
     </div>
 
-    <!-- Day 2 Content (Hidden by default) -->
-    <div class="tab-content" id="day-2" style="display: none;">
+    <!-- Day 2 Tab Content -->
+    <div class="tab-content" id="day-2">
       <table>
         <thead>
           <tr>
@@ -187,8 +212,8 @@
       </table>
     </div>
 
-    <!-- Day 3 Content (Hidden by default) -->
-    <div class="tab-content" id="day-3" style="display: none;">
+    <!-- Day 3 Tab Content -->
+    <div class="tab-content" id="day-3">
       <table>
         <thead>
           <tr>
@@ -204,31 +229,23 @@
       </table>
     </div>
 
-    <!-- Button to go to next section -->
+    <!-- Button -->
     <a href="#" class="btn">Next Day</a>
+
   </div>
 
   <script>
-    // JavaScript to switch between tabs
     function showTab(day) {
-      const contents = document.querySelectorAll('.tab-content');
       const tabs = document.querySelectorAll('.tab');
+      const tabContents = document.querySelectorAll('.tab-content');
       
-      // Hide all tab contents
-      contents.forEach(content => {
-        content.style.display = 'none';
-      });
-
-      // Remove active class from all tabs
-      tabs.forEach(tab => {
+      tabs.forEach((tab, index) => {
         tab.classList.remove('active');
+        tabContents[index].classList.remove('active');
       });
 
-      // Show the selected tab content
-      document.getElementById(`day-${day}`).style.display = 'block';
-
-      // Add active class to the clicked tab
       tabs[day - 1].classList.add('active');
+      tabContents[day - 1].classList.add('active');
     }
   </script>
 
