@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Trip Itinerary</title>
+  <title>My Japan Trip Itinerary</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     /* General Body Style */
@@ -33,43 +33,56 @@
       font-size: 1.2rem;
     }
 
-    /* Main Container */
-    .container {
-      max-width: 1000px;
-      margin: 20px auto;
-      padding: 0 20px;
+    /* Tab Container */
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid #0044cc;
+      margin-top: 30px;
     }
 
-    /* Day Section Styling */
-    .day-section {
-      background-color: white;
-      margin: 20px 0;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .day-section h2 {
-      font-size: 1.8rem;
-      color: #0044cc;
-      margin-bottom: 10px;
-    }
-
-    .day-section .date {
-      font-size: 1.1rem;
-      color: #777;
-    }
-
-    .day-section .activity {
-      font-size: 1.2rem;
-      margin-top: 10px;
+    .tab {
+      flex: 1;
+      padding: 15px;
+      text-align: center;
+      background-color: #f1f1f1;
+      cursor: pointer;
       font-weight: 500;
     }
 
-    .day-section .details {
-      font-size: 1rem;
+    .tab:hover {
+      background-color: #d1d1d1;
+    }
+
+    .tab.active {
+      background-color: #0044cc;
+      color: white;
+    }
+
+    /* Table Styling */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #0044cc;
+      color: white;
+      font-weight: bold;
+    }
+
+    td {
       color: #555;
-      margin-top: 5px;
     }
 
     .commute {
@@ -96,14 +109,14 @@
 
     /* Mobile Responsive */
     @media (max-width: 768px) {
-      .container {
-        padding: 0 10px;
+      .tabs {
+        flex-direction: column;
       }
-      header h1 {
-        font-size: 2rem;
+      .tab {
+        padding: 12px;
       }
-      .day-section h2 {
-        font-size: 1.6rem;
+      table {
+        font-size: 0.9rem;
       }
     }
   </style>
@@ -116,36 +129,108 @@
   </header>
 
   <div class="container">
-    <!-- Day 1 -->
-    <div class="day-section">
-      <h2>Day 1: Sat, Apr 12</h2>
-      <p class="date">07:30 - Poom arrives at NRT Terminal 1</p>
-      <p class="activity">Poom waits or takes airport shuttle to Terminal 2 (free, 10 min).</p>
-      <p class="details">Location: Narita Airport (NRT)</p>
-      <p class="commute">Commuting: Take shuttle from Terminal 1 to Terminal 2.</p>
+    <!-- Tab Navigation -->
+    <div class="tabs">
+      <div class="tab active" onclick="showTab(1)">Day 1</div>
+      <div class="tab" onclick="showTab(2)">Day 2</div>
+      <div class="tab" onclick="showTab(3)">Day 3</div>
     </div>
 
-    <div class="day-section">
-      <h2>Day 1: Sat, Apr 12</h2>
-      <p class="date">07:55 - Pum, Noon, Nu arrive at NRT T2</p>
-      <p class="activity">Group of 4 clears immigration, gets Suica/Pasmo cards (¥500 deposit + ¥2,000 top-up).</p>
-      <p class="details">Location: Narita Airport (NRT)</p>
-      <p class="commute">Commuting: Prepare for NEX to Tokyo.</p>
+    <!-- Day 1 Content -->
+    <div class="tab-content" id="day-1">
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Activity</th>
+            <th>Location</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>07:30</td>
+            <td>Poom arrives at NRT Terminal 1</td>
+            <td>Narita Airport (NRT)</td>
+            <td>Poom waits or takes shuttle to Terminal 2 (10 min).</td>
+          </tr>
+          <tr>
+            <td>07:55</td>
+            <td>Pum, Noon, Nu arrive at NRT T2</td>
+            <td>Narita Airport (NRT)</td>
+            <td>Group clears immigration, gets Suica/Pasmo cards.</td>
+          </tr>
+          <tr>
+            <td>08:30–09:30</td>
+            <td>Group takes Narita Express (NEX) to Tokyo</td>
+            <td>NRT to Otsuka Station</td>
+            <td>NEX (¥3,070, 1 hr) then Yamanote Line to Otsuka (¥170, 10 min).</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="day-section">
-      <h2>Day 1: Sat, Apr 12</h2>
-      <p class="date">08:30–09:30 - Group of 4 takes Narita Express (NEX) to Tokyo</p>
-      <p class="activity">NEX from NRT to Tokyo Station (¥3,070, 1 hr), then Yamanote Line to Otsuka (¥170, 10 min).</p>
-      <p class="details">Location: NRT to Otsuka Station</p>
-      <p class="commute">Commuting: Total fare: ¥3,240/person.</p>
+    <!-- Day 2 Content (Hidden by default) -->
+    <div class="tab-content" id="day-2" style="display: none;">
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Activity</th>
+            <th>Location</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Add Day 2 activities here -->
+        </tbody>
+      </table>
     </div>
 
-    <!-- Add more days here -->
+    <!-- Day 3 Content (Hidden by default) -->
+    <div class="tab-content" id="day-3" style="display: none;">
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Activity</th>
+            <th>Location</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Add Day 3 activities here -->
+        </tbody>
+      </table>
+    </div>
 
     <!-- Button to go to next section -->
     <a href="#" class="btn">Next Day</a>
   </div>
+
+  <script>
+    // JavaScript to switch between tabs
+    function showTab(day) {
+      const contents = document.querySelectorAll('.tab-content');
+      const tabs = document.querySelectorAll('.tab');
+      
+      // Hide all tab contents
+      contents.forEach(content => {
+        content.style.display = 'none';
+      });
+
+      // Remove active class from all tabs
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+      // Show the selected tab content
+      document.getElementById(`day-${day}`).style.display = 'block';
+
+      // Add active class to the clicked tab
+      tabs[day - 1].classList.add('active');
+    }
+  </script>
 
 </body>
 </html>
