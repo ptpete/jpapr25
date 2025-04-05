@@ -3,225 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trip Itinerary</title>
-  <link rel="icon" href="favicon.ico">
+  <title>Slider Example</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       background-color: #f4f4f4;
-    }
-
-    .header {
-      text-align: center;
-      padding: 20px;
-      background-color: #4CAF50;
-      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
 
     .slider-container {
       width: 80%;
       max-width: 600px;
-      margin: 30px auto;
-      position: relative;
+      text-align: center;
     }
 
     .slider {
-      -webkit-appearance: none;
-      appearance: none;
       width: 100%;
       height: 12px;
       background: #ddd;
       border-radius: 5px;
       outline: none;
-      opacity: 0.7;
-      transition: opacity 0.2s, transform 0.2s ease-out;
-    }
-
-    .slider:hover {
-      opacity: 1;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
     .slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 20px;
-      height: 20px;
+      width: 30px;
+      height: 30px;
       background: #4CAF50;
-      border-radius: 5px;
+      border-radius: 50%;
       cursor: pointer;
-      transition: transform 0.2s ease-out;
+      transition: all 0.3s ease;
     }
 
     .slider::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
+      width: 30px;
+      height: 30px;
       background: #4CAF50;
-      border-radius: 5px;
+      border-radius: 50%;
       cursor: pointer;
-      transition: transform 0.2s ease-out;
+      transition: all 0.3s ease;
     }
 
     .slider-value {
-      text-align: center;
-      font-size: 18px;
+      font-size: 1.5em;
       margin-top: 10px;
     }
 
-    .itinerary {
-      width: 80%;
-      max-width: 800px;
-      margin: 20px auto;
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .itinerary h2 {
-      text-align: center;
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-
-    .itinerary table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    .itinerary th, .itinerary td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .itinerary th {
-      background-color: #f4f4f4;
-    }
-
-    .itinerary td {
-      background-color: #fff;
-    }
-
-    .itinerary .day-title {
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .itinerary .note {
-      font-style: italic;
-      color: gray;
-    }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <h1>Trip Itinerary</h1>
-  </div>
-
   <div class="slider-container">
+    <h1>Slider with Elastic Effect</h1>
     <input type="range" min="1" max="9" value="1" class="slider" id="daySlider">
-    <div class="slider-value">
-      Day <span id="dayValue">1</span>
-    </div>
-  </div>
-
-  <div class="itinerary" id="itinerary">
-    <h2>Day 1: Sat, Apr 12</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Time</th>
-          <th>Activity</th>
-          <th>Location</th>
-          <th>Commuting Details</th>
-          <th>Notes</th>
-        </tr>
-      </thead>
-      <tbody id="day1">
-        <tr>
-          <td>07:30</td>
-          <td>Poom arrives at NRT Terminal 1</td>
-          <td>Narita Airport (NRT)</td>
-          <td>Poom waits or takes airport shuttle to Terminal 2 (free, 10 min).</td>
-          <td>Poom waits to meet others.</td>
-        </tr>
-        <tr>
-          <td>07:55</td>
-          <td>Pum, Noon, Nu arrive at NRT T2</td>
-          <td>Narita Airport (NRT)</td>
-          <td>Group of 4 clears immigration, gets Suica/Pasmo cards (¥500 deposit + ¥2,000 top-up).</td>
-          <td>Prepare for NEX to Tokyo.</td>
-        </tr>
-        <tr>
-          <td>08:30–09:30</td>
-          <td>Group of 4 takes Narita Express (NEX) to Tokyo</td>
-          <td>NRT to Otsuka Station</td>
-          <td>NEX from NRT to Tokyo Station (¥3,070, 1 hr), then Yamanote Line to Otsuka (¥170, 10 min). Total: ¥3,240/person.</td>
-          <td>Check into Toyoko Inn Tokyo Yamanote-sen Otsuka-eki Kita-guchi No.2.</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="slider-value" id="sliderValue">Day 1</div>
   </div>
 
   <script>
-    const slider = document.getElementById("daySlider");
-    const dayValue = document.getElementById("dayValue");
-    const itinerary = document.getElementById("itinerary");
+    const slider = document.getElementById('daySlider');
+    const valueDisplay = document.getElementById('sliderValue');
 
-    // Add days data
-    const daysData = [
-      "Day 1: Sat, Apr 12",
-      "Day 2: Sun, Apr 13",
-      "Day 3: Mon, Apr 14",
-      "Day 4: Tue, Apr 15",
-      "Day 5: Wed, Apr 16",
-      "Day 6: Thu, Apr 17",
-      "Day 7: Fri, Apr 18",
-      "Day 8: Sat, Apr 19",
-      "Day 9: Sun, Apr 20"
-    ];
-
-    const dayPlans = [
-      document.getElementById("day1"),
-      // Add other days here (day2, day3... elements)
-    ];
-
-    function showDay(day) {
-      const dayHeaders = daysData;
-      const dayPlansElements = dayPlans;
-
-      itinerary.querySelector("h2").textContent = dayHeaders[day - 1];
-
-      dayPlansElements.forEach((dayPlan, index) => {
-        dayPlan.style.display = index === day - 1 ? "table-row" : "none";
-      });
-    }
-
-    showDay(1);
-
-    // Kinetic Elasticity Effect for the Slider
-    let lastPosition = 0;
-
-    slider.oninput = function() {
-      dayValue.textContent = this.value;
-      showDay(this.value);
-
-      const diff = this.value - lastPosition;
-      const thumb = slider.querySelector('::-webkit-slider-thumb');
-      
-      // Apply bounce effect based on difference in position
-      thumb.style.transition = "transform 0.2s ease-out";
-      if (Math.abs(diff) > 1) {
-        thumb.style.transform = `scale(${1 + 0.05 * Math.sin(diff)})`;
-      } else {
-        thumb.style.transform = "scale(1)";
-      }
-      
-      lastPosition = this.value;
-    }
+    slider.addEventListener('input', function() {
+      let dayValue = slider.value;
+      valueDisplay.textContent = `Day ${dayValue}`;
+      // Elastic effect for the thumb when dragging
+      slider.style.transform = `scale(1.2)`;  // Slightly enlarge the thumb
+      setTimeout(() => {
+        slider.style.transform = `scale(1)`;  // Restore thumb size after a short time
+      }, 150);
+    });
   </script>
 
 </body>
