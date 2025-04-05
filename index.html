@@ -3,87 +3,102 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smooth Slider Example</title>
+  <title>Sync Checkboxes</title>
+  <link rel="icon" href="favicon.ico">
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      padding: 20px;
+      background-color: #f5f5f5;
     }
 
-    .slider-container {
-      width: 80%;
-      max-width: 600px;
-      text-align: center;
+    .checkbox-list {
+      list-style: none;
+      padding: 0;
     }
 
-    .slider {
-      width: 100%;
-      height: 12px;
-      background: #ddd;
-      border-radius: 5px;
-      outline: none;
-      -webkit-appearance: none;
-      appearance: none;
-      transition: all 0.1s ease-in-out; /* Smooth background change */
+    .checkbox-item {
+      margin: 10px 0;
     }
 
-    .slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 30px;
-      height: 30px;
-      background: #4CAF50;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: all 0.3s ease-out; /* Smooth thumb expansion */
-    }
-
-    .slider::-moz-range-thumb {
-      width: 30px;
-      height: 30px;
-      background: #4CAF50;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: all 0.3s ease-out;
-    }
-
-    .slider-value {
-      font-size: 1.5em;
-      margin-top: 10px;
-      font-weight: bold;
+    .checkbox-item input {
+      margin-right: 10px;
     }
   </style>
 </head>
 <body>
 
-  <div class="slider-container">
-    <h1>Day Selector</h1>
-    <input type="range" min="1" max="9" value="1" class="slider" id="daySlider">
-    <div class="slider-value" id="sliderValue">Day 1</div>
-  </div>
+  <h1>Sync Checkboxes Across Devices</h1>
+  
+  <ul class="checkbox-list" id="checkboxList">
+    <!-- Checkboxes will appear here -->
+  </ul>
 
   <script>
-    const slider = document.getElementById('daySlider');
-    const valueDisplay = document.getElementById('sliderValue');
+    // Your Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCAbCD5eLXKW-izbCmVOpA-9jAjcLSN3b4",
+      authDomain: "jpapr25.firebaseapp.com",
+      projectId: "jpapr25",
+      storageBucket: "jpapr25.firebasestorage.app",
+      messagingSenderId: "664046829915",
+      appId: "1:664046829915:web:7d16ace7d82bf918295a7e"
+    };
 
-    slider.addEventListener('input', function() {
-      let dayValue = slider.value;
-      valueDisplay.textContent = `Day ${dayValue}`;
-      
-      // Apply smooth elastic effect on the slider thumb while dragging
-      slider.style.transform = 'scale(1.1)';
-      
-      // Delay the reset of the scale back to normal after drag is done
-      setTimeout(() => {
-        slider.style.transform = 'scale(1)';
-      }, 150);
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database(app);
+
+    const checkboxListRef = database.ref('checkboxes');
+
+    // Function to render the checkboxes
+    function renderCheckboxes(data) {
+      const checkboxList = document.getElementById('checkboxList');
+      checkboxList.innerHTML = ''; // Clear the list
+
+      data.forEach((checkboxData) => {
+        const li = document.createElement('li');
+        li.classList.add('checkbox-item');
+
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.id = checkboxData.id;
+        input.checked = checkboxData.checked;
+
+        input.addEventListener('change', (event) => {
+          // Sync change to Firebase
+          checkboxListRef.child(checkboxData.id).update({ checked: event.target.checked });
+        });
+
+        li.appendChild(input);
+        li.appendChild(document.createTextNode(checkboxData.name));
+        checkboxList.appendChild(li);
+      });
+    }
+
+    // Listen for changes in the database and update UI
+    checkboxListRef.on('value', (snapshot) => {
+      const checkboxesData = snapshot.val();
+      const data = Object.keys(checkboxesData).map(key => ({ id: key, ...checkboxesData[key] }));
+      renderCheckboxes(data);
+    });
+
+    // Add some initial checkboxes to the database if none exist
+    checkboxListRef.once('value', (snapshot) => {
+      if (!snapshot.exists()) {
+        const initialData = [
+          { id: 'checkbox1', name: 'Task 1', checked: false },
+          { id: 'checkbox2', name: 'Task 2', checked: false },
+          { id: 'checkbox3', name: 'Task 3', checked: false },
+        ];
+
+        initialData.forEach((checkbox) => {
+          checkboxListRef.child(checkbox.id).set(checkbox);
+        });
+      }
     });
   </script>
-
 </body>
 </html>
