@@ -1,92 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sync Checkboxes</title>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Checkbox Sync</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js"></script>
 </head>
 <body>
-  <h1>Syncing Checkboxes Across Devices</h1>
-  
-  <div id="checkboxes">
-    <!-- Dynamically generated checkboxes will appear here -->
-  </div>
+    <h1>Checkbox Sync</h1>
+    <button id="addCheckboxBtn">Add New Checkbox</button>
+    <ul id="checkboxList"></ul>
 
-  <button onclick="addCheckbox()">Add New Checkbox</button>
+    <script type="module">
+        // Import the functions you need from Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js";
 
-  <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCAbCD5eLXKW-izbCmVOpA-9jAjcLSN3b4",
-      authDomain: "jpapr25.firebaseapp.com",
-      projectId: "jpapr25",
-      storageBucket: "jpapr25.firebasestorage.app",
-      messagingSenderId: "664046829915",
-      appId: "1:664046829915:web:7d16ace7d82bf918295a7e"
-    };
+        // Firebase configuration object
+        const firebaseConfig = {
+            apiKey: "AIzaSyCAbCD5eLXKW-izbCmVOpA-9jAjcLSN3b4",
+            authDomain: "jpapr25.firebaseapp.com",
+            projectId: "jpapr25",
+            storageBucket: "jpapr25.firebasestorage.app",
+            messagingSenderId: "664046829915",
+            appId: "1:664046829915:web:7d16ace7d82bf918295a7e"
+        };
 
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-    // Function to update checkbox state in the database
-    function updateCheckbox(checkboxId, checkedState) {
-      const checkboxRef = db.ref('checkboxes/' + checkboxId);
-      checkboxRef.set({
-        checked: checkedState
-      });
-    }
+        // Function to update checkbox in the database
+        const addCheckbox = () => {
+            const checkboxRef = ref(db, 'checkboxes');
+            const newCheckboxRef = checkboxRef.push();
+            set(newCheckboxRef, {
+                checked: false
+            });
+        };
 
-    // Function to add a new checkbox to the Firebase database
-    function addCheckbox() {
-      const newCheckboxRef = db.ref('checkboxes').push(); // Create a new checkbox with a unique ID
-      newCheckboxRef.set({
-        checked: false
-      });
-    }
+        // Function to load checkboxes from the database
+        const loadCheckboxes = () => {
+            const checkboxList = document.getElementById('checkboxList');
+            const checkboxRef = ref(db, 'checkboxes');
 
-    // Function to create and display checkbox elements
-    function createCheckboxElement(checkboxId, checked) {
-      const checkboxElement = document.createElement('div');
-      checkboxElement.innerHTML = `
-        <input type="checkbox" id="${checkboxId}" ${checked ? 'checked' : ''} />
-        <label for="${checkboxId}">${checkboxId}</label>
-      `;
-      document.getElementById('checkboxes').appendChild(checkboxElement);
+            onValue(checkboxRef, (snapshot) => {
+                checkboxList.innerHTML = ''; // Clear current checkboxes
+                snapshot.forEach(childSnapshot => {
+                    const checkboxData = childSnapshot.val();
+                    const checkboxItem = document.createElement('li');
+                    checkboxItem.innerHTML = `
+                        <input type="checkbox" data-id="${childSnapshot.key}" ${checkboxData.checked ? 'checked' : ''}>
+                        Checkbox ${childSnapshot.key}
+                    `;
+                    checkboxList.appendChild(checkboxItem);
 
-      // Attach event listener to sync checkbox state with Firebase
-      const checkbox = document.getElementById(checkboxId);
-      checkbox.addEventListener('change', (event) => {
-        updateCheckbox(checkboxId, event.target.checked);
-      });
-    }
+                    // Attach event listener to update checkbox status
+                    checkboxItem.querySelector('input').addEventListener('change', (e) => {
+                        const checkboxId = e.target.getAttribute('data-id');
+                        const checkboxChecked = e.target.checked;
+                        const checkboxRef = ref(db, 'checkboxes/' + checkboxId);
+                        set(checkboxRef, { checked: checkboxChecked });
+                    });
+                });
+            });
+        };
 
-    // Function to load checkboxes from Firebase
-    function loadCheckboxes() {
-      const checkboxesRef = db.ref('checkboxes');
-      
-      // Listen for newly added checkboxes
-      checkboxesRef.on('child_added', (snapshot) => {
-        const checkboxId = snapshot.key;
-        const checkedState = snapshot.val().checked;
-        createCheckboxElement(checkboxId, checkedState);
-      });
+        // Add event listener to add checkbox button
+        document.getElementById('addCheckboxBtn').addEventListener('click', addCheckbox);
 
-      // Listen for changes to existing checkboxes
-      checkboxesRef.on('child_changed', (snapshot) => {
-        const checkboxId = snapshot.key;
-        const checkedState = snapshot.val().checked;
-        const checkbox = document.getElementById(checkboxId);
-        if (checkbox) {
-          checkbox.checked = checkedState;
-        }
-      });
-    }
-
-    // Load checkboxes when the page is loaded
-    window.onload = loadCheckboxes;
-  </script>
+        // Load checkboxes when the page loads
+        window.onload = loadCheckboxes;
+    </script>
 </body>
 </html>
