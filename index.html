@@ -23,6 +23,7 @@
       width: 80%;
       max-width: 600px;
       margin: 30px auto;
+      position: relative;
     }
 
     .slider {
@@ -34,7 +35,7 @@
       border-radius: 5px;
       outline: none;
       opacity: 0.7;
-      transition: opacity .2s;
+      transition: opacity 0.2s, transform 0.2s ease-out;
     }
 
     .slider:hover {
@@ -49,6 +50,7 @@
       background: #4CAF50;
       border-radius: 5px;
       cursor: pointer;
+      transition: transform 0.2s ease-out;
     }
 
     .slider::-moz-range-thumb {
@@ -57,6 +59,7 @@
       background: #4CAF50;
       border-radius: 5px;
       cursor: pointer;
+      transition: transform 0.2s ease-out;
     }
 
     .slider-value {
@@ -138,7 +141,6 @@
         </tr>
       </thead>
       <tbody id="day1">
-        <!-- Day 1 plan goes here -->
         <tr>
           <td>07:30</td>
           <td>Poom arrives at NRT Terminal 1</td>
@@ -160,40 +162,37 @@
           <td>NEX from NRT to Tokyo Station (¥3,070, 1 hr), then Yamanote Line to Otsuka (¥170, 10 min). Total: ¥3,240/person.</td>
           <td>Check into Toyoko Inn Tokyo Yamanote-sen Otsuka-eki Kita-guchi No.2.</td>
         </tr>
-        <!-- Add remaining rows for Day 1 -->
       </tbody>
     </table>
   </div>
-
-  <!-- Add similar sections for Day 2 to Day 9 -->
 
   <script>
     const slider = document.getElementById("daySlider");
     const dayValue = document.getElementById("dayValue");
     const itinerary = document.getElementById("itinerary");
 
-    // Show content for the selected day
     function showDay(day) {
       const dayHeaders = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9"];
       const dayPlans = [document.getElementById("day1"), /* Add day2, day3... elements here */];
 
-      // Set the header
       itinerary.querySelector("h2").textContent = dayHeaders[day - 1];
 
-      // Hide all days
       dayPlans.forEach((dayPlan, index) => {
         dayPlan.style.display = index === day - 1 ? "table-row" : "none";
       });
     }
 
-    // Initial load
     showDay(1);
 
-    // Update the day and content when slider is moved
     slider.oninput = function() {
       dayValue.textContent = this.value;
       showDay(this.value);
+
+      // Add kinetic elasticity effect
+      const thumb = slider.querySelector('::-webkit-slider-thumb');
+      thumb.style.transform = `scale(${1 + 0.1 * Math.sin(this.value)})`;
     }
   </script>
+
 </body>
 </html>
