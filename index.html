@@ -4,63 +4,148 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Trip Itinerary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
+    /* General Body Style */
     body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f7f7f7;
+      color: #333;
       margin: 0;
       padding: 0;
-      background-color: #f4f4f4;
+      line-height: 1.6;
     }
-    .header {
-      background-color: #333;
+
+    /* Header Styling */
+    header {
+      background-color: #0044cc;
       color: white;
       text-align: center;
-      padding: 10px 0;
+      padding: 30px 20px;
     }
-    .day-details {
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+
+    header p {
+      font-size: 1.2rem;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+
+    /* Day Section Styling */
+    .day-section {
       background-color: white;
-      margin: 10px auto;
+      margin: 20px 0;
       padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .day-section h2 {
+      font-size: 1.8rem;
+      color: #0044cc;
+      margin-bottom: 10px;
+    }
+
+    .day-section .date {
+      font-size: 1.1rem;
+      color: #777;
+    }
+
+    .day-section .activity {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+
+    .day-section .details {
+      font-size: 1rem;
+      color: #555;
+      margin-top: 5px;
+    }
+
+    .commute {
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 10px;
+    }
+
+    /* Button Styling */
+    .btn {
+      display: inline-block;
+      background-color: #0044cc;
+      color: white;
+      padding: 10px 20px;
       border-radius: 5px;
-      max-width: 800px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-decoration: none;
+      margin-top: 20px;
+      font-weight: 500;
     }
-    h2 {
-      margin-top: 0;
+
+    .btn:hover {
+      background-color: #0033aa;
     }
-    p {
-      margin: 5px 0;
-    }
-    .date-time {
-      font-weight: bold;
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 10px;
+      }
+      header h1 {
+        font-size: 2rem;
+      }
+      .day-section h2 {
+        font-size: 1.6rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <h1>Trip Itinerary</h1>
-    <p>My Japan Trip</p>
-  </div>
+  <header>
+    <h1>My Japan Trip Itinerary</h1>
+    <p>Explore the details of my upcoming adventure in Japan!</p>
+  </header>
 
-  <div class="day-details">
-    <h2>Day 1</h2>
-    <p class="date-time">Sat, Apr 12 - 07:30</p>
-    <h3>Poom arrives at NRT Terminal 1</h3>
-    <p><strong>Location:</strong> Narita Airport (NRT)</p>
-    <p><strong>Details:</strong> Poom waits or takes airport shuttle to Terminal 2 (free, 10 min).</p>
-  </div>
+  <div class="container">
+    <!-- Day 1 -->
+    <div class="day-section">
+      <h2>Day 1: Sat, Apr 12</h2>
+      <p class="date">07:30 - Poom arrives at NRT Terminal 1</p>
+      <p class="activity">Poom waits or takes airport shuttle to Terminal 2 (free, 10 min).</p>
+      <p class="details">Location: Narita Airport (NRT)</p>
+      <p class="commute">Commuting: Take shuttle from Terminal 1 to Terminal 2.</p>
+    </div>
 
-  <div class="day-details">
-    <h2>Day 1</h2>
-    <p class="date-time">Sat, Apr 12 - 07:55</p>
-    <h3>Pum, Noon, Nu arrive at NRT T2</h3>
-    <p><strong>Location:</strong> Narita Airport (NRT)</p>
-    <p><strong>Details:</strong> Group of 4 clears immigration, gets Suica/Pasmo cards (¥500 deposit + ¥2,000 top-up).</p>
-  </div>
+    <div class="day-section">
+      <h2>Day 1: Sat, Apr 12</h2>
+      <p class="date">07:55 - Pum, Noon, Nu arrive at NRT T2</p>
+      <p class="activity">Group of 4 clears immigration, gets Suica/Pasmo cards (¥500 deposit + ¥2,000 top-up).</p>
+      <p class="details">Location: Narita Airport (NRT)</p>
+      <p class="commute">Commuting: Prepare for NEX to Tokyo.</p>
+    </div>
 
-  <!-- Add more days here -->
+    <div class="day-section">
+      <h2>Day 1: Sat, Apr 12</h2>
+      <p class="date">08:30–09:30 - Group of 4 takes Narita Express (NEX) to Tokyo</p>
+      <p class="activity">NEX from NRT to Tokyo Station (¥3,070, 1 hr), then Yamanote Line to Otsuka (¥170, 10 min).</p>
+      <p class="details">Location: NRT to Otsuka Station</p>
+      <p class="commute">Commuting: Total fare: ¥3,240/person.</p>
+    </div>
+
+    <!-- Add more days here -->
+
+    <!-- Button to go to next section -->
+    <a href="#" class="btn">Next Day</a>
+  </div>
 
 </body>
 </html>
