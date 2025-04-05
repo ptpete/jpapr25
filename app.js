@@ -1,6 +1,6 @@
-// Define Google Sheets API settings
-const SHEET_ID = '1Drhe2Hh4e_Vmw8XMa8e7Oyh-4bOB178BoBYRF06n0Gk'; // Your Google Sheets ID
-const API_KEY = 'AIzaSyCNxV6lXO282697QMTfh50Cmrl0OSKLW9Q'; // Your API key
+// Your Google Sheets API setup
+const SHEET_ID = '1Drhe2Hh4e_Vmw8XMa8e7Oyh-4bOB178BoBYRF06n0Gk'; // Your Sheet ID
+const API_KEY = 'AIzaSyCNxV6lXO282697QMTfh50Cmrl0OSKLW9Q'; // Your API Key
 
 // Initialize Google API client
 function initClient() {
@@ -8,8 +8,7 @@ function initClient() {
         apiKey: API_KEY,
         discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
     }).then(function () {
-        // Now the client is initialized, we can start fetching data
-        loadCheckboxes();
+        loadCheckboxes(); // Automatically load checkboxes when the page loads
     });
 }
 
@@ -18,7 +17,7 @@ gapi.load('client', initClient);
 
 // Function to load checkboxes from Google Sheets
 function loadCheckboxes() {
-    const range = "Sheet1!A2:B"; // Sheet1 is the name of your sheet, adjust if necessary
+    const range = "Sheet1!A2:B"; // The range of data in your sheet
 
     gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: SHEET_ID,
