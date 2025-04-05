@@ -171,26 +171,56 @@
     const dayValue = document.getElementById("dayValue");
     const itinerary = document.getElementById("itinerary");
 
+    // Add days data
+    const daysData = [
+      "Day 1: Sat, Apr 12",
+      "Day 2: Sun, Apr 13",
+      "Day 3: Mon, Apr 14",
+      "Day 4: Tue, Apr 15",
+      "Day 5: Wed, Apr 16",
+      "Day 6: Thu, Apr 17",
+      "Day 7: Fri, Apr 18",
+      "Day 8: Sat, Apr 19",
+      "Day 9: Sun, Apr 20"
+    ];
+
+    const dayPlans = [
+      document.getElementById("day1"),
+      // Add other days here (day2, day3... elements)
+    ];
+
     function showDay(day) {
-      const dayHeaders = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9"];
-      const dayPlans = [document.getElementById("day1"), /* Add day2, day3... elements here */];
+      const dayHeaders = daysData;
+      const dayPlansElements = dayPlans;
 
       itinerary.querySelector("h2").textContent = dayHeaders[day - 1];
 
-      dayPlans.forEach((dayPlan, index) => {
+      dayPlansElements.forEach((dayPlan, index) => {
         dayPlan.style.display = index === day - 1 ? "table-row" : "none";
       });
     }
 
     showDay(1);
 
+    // Kinetic Elasticity Effect for the Slider
+    let lastPosition = 0;
+
     slider.oninput = function() {
       dayValue.textContent = this.value;
       showDay(this.value);
 
-      // Add kinetic elasticity effect
+      const diff = this.value - lastPosition;
       const thumb = slider.querySelector('::-webkit-slider-thumb');
-      thumb.style.transform = `scale(${1 + 0.1 * Math.sin(this.value)})`;
+      
+      // Apply bounce effect based on difference in position
+      thumb.style.transition = "transform 0.2s ease-out";
+      if (Math.abs(diff) > 1) {
+        thumb.style.transform = `scale(${1 + 0.05 * Math.sin(diff)})`;
+      } else {
+        thumb.style.transform = "scale(1)";
+      }
+      
+      lastPosition = this.value;
     }
   </script>
 
