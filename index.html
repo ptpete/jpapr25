@@ -1,23 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sync Checkboxes with Firebase</title>
-  <!-- Firebase Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
-
-  <!-- Link to your app.js file -->
-  <script defer src="app.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkbox Sync with Google Sheets</title>
+    <script src="https://apis.google.com/js/api.js"></script>
 </head>
 <body>
+    <div id="checkbox-list"></div>
+    <button id="add-checkbox-btn">Add New Checkbox</button>
 
-  <h1>Sync Checkboxes Across Devices</h1>
-
-  <div id="checkbox-list"></div>
-
-  <button id="add-checkbox-btn">Add New Checkbox</button>
-
+    <script src="app.js"></script>
 </body>
 </html>
