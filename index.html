@@ -8,16 +8,16 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js"></script>
 </head>
 <body>
-    <h1>Checkbox Sync</h1>
+    <h1>Firebase Checkbox Sync3333</h1>
     <button id="addCheckboxBtn">Add New Checkbox</button>
     <ul id="checkboxList"></ul>
 
     <script type="module">
-        // Import the functions you need from Firebase SDK
+        // Import necessary Firebase functions
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
-        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js";
+        import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js";
 
-        // Firebase configuration object
+        // Your Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyCAbCD5eLXKW-izbCmVOpA-9jAjcLSN3b4",
             authDomain: "jpapr25.firebaseapp.com",
@@ -31,22 +31,22 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Function to update checkbox in the database
+        // Add a new checkbox
         const addCheckbox = () => {
-            const checkboxRef = ref(db, 'checkboxes');
-            const newCheckboxRef = checkboxRef.push();
+            const checkboxesRef = ref(db, 'checkboxes');
+            const newCheckboxRef = push(checkboxesRef); // Create a new unique node
             set(newCheckboxRef, {
-                checked: false
+                checked: false  // Initial value for the checkbox
             });
         };
 
-        // Function to load checkboxes from the database
+        // Load all checkboxes
         const loadCheckboxes = () => {
             const checkboxList = document.getElementById('checkboxList');
-            const checkboxRef = ref(db, 'checkboxes');
-
-            onValue(checkboxRef, (snapshot) => {
-                checkboxList.innerHTML = ''; // Clear current checkboxes
+            const checkboxesRef = ref(db, 'checkboxes');
+            
+            onValue(checkboxesRef, (snapshot) => {
+                checkboxList.innerHTML = ''; // Clear the list before adding items
                 snapshot.forEach(childSnapshot => {
                     const checkboxData = childSnapshot.val();
                     const checkboxItem = document.createElement('li');
@@ -56,7 +56,7 @@
                     `;
                     checkboxList.appendChild(checkboxItem);
 
-                    // Attach event listener to update checkbox status
+                    // Event listener to update checkbox status in the database
                     checkboxItem.querySelector('input').addEventListener('change', (e) => {
                         const checkboxId = e.target.getAttribute('data-id');
                         const checkboxChecked = e.target.checked;
@@ -67,7 +67,7 @@
             });
         };
 
-        // Add event listener to add checkbox button
+        // Event listener for adding new checkbox
         document.getElementById('addCheckboxBtn').addEventListener('click', addCheckbox);
 
         // Load checkboxes when the page loads
