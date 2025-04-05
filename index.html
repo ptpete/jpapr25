@@ -3,15 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sync Checkboxes with Google Sheets</title>
-    <script src="https://apis.google.com/js/api.js"></script> <!-- Google API client -->
-    <script src="app.js" defer></script> <!-- Your app.js file -->
+    <title>Checkbox Sync</title>
+    <script src="https://cdn.jsdelivr.net/npm/@googleapis/sheets@v4.0.0/dist/sheets.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #checkbox-list {
+            margin-top: 20px;
+        }
+        .checkbox-item {
+            margin-bottom: 10px;
+        }
+        #sync-now-btn {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Sync Checkboxes with Google Sheets</h1>
-    
+
+    <h1>Checkbox Sync with Google Sheets</h1>
+
+    <!-- Sync Now Button -->
+    <button id="sync-now-btn">Sync Now</button>
+
+    <!-- Display Checkboxes -->
     <div id="checkbox-list"></div>
-    
-    <button id="add-checkbox-btn">Add New Checkbox</button>
+
+    <script>
+        // Google Sheets API Key and Sheet ID
+        const SHEET_ID = '1Drhe2Hh4e_Vmw8XMa8e7Oyh-4bOB178BoBYRF06n0Gk';
+        const API_KEY = 'AIzaSyCNxV6lXO282697QMTfh50Cmrl0OSKLW9Q';
+
+        // The range of data in the Google Sheet (e.g., A2:B, assumes "checkbox" data is in columns A and B)
+        const RANGE = 'Sheet1!A2:B';
+
+        // Function to load checkboxes from Google Sheets
+        async function loadCheckboxes() {
+            const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`);
+            const data = await response.json();
+            const checkboxes = data.values || [];
+
+            // Clear the existing checkboxes in the UI
+            const checkboxList = document.getElementById('checkbox-list');
+            checkboxList.innerHTML = '';
+
+            // Dynamically create checkboxes from the data in Google Sheets
+            checkboxes.forEach((checkbox, index) => {
+                const checkboxId = `checkbox-${index}`;
+                const isChecked = checkbox[1] === 'TRUE';
+                const checkboxLabel = checkbox[0];
+
+                const checkboxDiv = document.createElement('div');
+                checkboxDiv.className = 'checkbox-item';
+
+                const checkboxElement = document.createElement('input');
+                checkboxElement.type = 'checkbox';
+                checkboxElement.id = checkboxId;
+                checkboxElement.checked = isChecked;
+                checkboxElement.addEventListener('change', () => handleCheckboxChange(checkboxId, checkboxElement.checked));
+
+                const label = document.createElement('label');
+                label.setAttribute('for', checkboxId);
+                label.innerText = checkboxLabel;
+
+                checkboxDiv.appendChild(checkboxElement);
+                checkboxDiv.appendChild(label);
+
+                checkboxList.appendChild(checkboxDiv);
+            });
+        }
+
+        // Function to handle changes in checkboxes
+        async function handleCheckboxChange(checkboxId, isChecked) {
+            const checkboxIndex = checkboxId.split('-')[1];
+            const range = `Sheet1!B${parseInt(checkboxIndex) + 2}`;
+
+            const body = {
+                values: [[isChecked ? 'TRUE' : 'FALSE']]
+            };
+
+            const response = await fetch(
+                `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${range}?valueInputOption=RAW&key=${API_KEY}`,
+                {
+                    method: 'PUT',
+                    body: JSON.stringify(body),
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            );
+            const result = await response.json();
+            console.log('Checkbox synced to Google Sheets:', result);
+        }
+
+        // Sync Now Button: Manually load the data
+        document.getElementById('sync-now-btn').addEventListener('click', function() {
+            loadCheckboxes();  // Manually refresh the checkboxes from Google Sheets
+            alert('Checkboxes synced!');
+        });
+
+        // Initial load when the page is loaded
+        window.onload = loadCheckboxes;
+
+    </script>
+
 </body>
 </html>
