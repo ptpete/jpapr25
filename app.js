@@ -1,8 +1,4 @@
-// Import Firebase SDKs
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, onValue } from "firebase/database";
-
-// Firebase configuration from your Firebase console
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCAbCD5eLXKW-izbCmVOpA-9jAjcLSN3b4",
   authDomain: "jpapr25.firebaseapp.com",
@@ -13,24 +9,51 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
+const database = firebase.database(app);
 
-// Get a reference to the database
-const db = getDatabase(app);
-const checkboxRef = ref(db, 'checkbox'); // A single checkbox state reference
+// DOM elements
+const checkboxListDiv = document.getElementById("checkbox-list");
+const addCheckboxBtn = document.getElementById("add-checkbox-btn");
 
-// Get the checkbox DOM element
-const checkboxElement = document.getElementById('checkbox');
+// Reference to the database location for 'checkboxes'
+const checkboxRef = database.ref('checkboxes');
 
-// Sync the checkbox state with Firebase on page load
-onValue(checkboxRef, (snapshot) => {
-  const checkboxState = snapshot.val();
-  if (checkboxState !== null) {
-    checkboxElement.checked = checkboxState;
+// Listen for changes to the 'checkboxes' node in Firebase
+checkboxRef.on('value', (snapshot) => {
+  const data = snapshot.val();
+  if (data) {
+    // Clear the existing checkbox list
+    checkboxListDiv.innerHTML = '';
+
+    // Loop through the checkboxes data and display them
+    Object.keys(data).forEach(key => {
+      const checkboxData = data[key];
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = checkboxData.checked;
+      checkbox.addEventListener("change", () => {
+        // Update the checked state in Firebase when the checkbox is changed
+        checkboxRef.child(key).update({
+          checked: checkbox.checked
+        });
+      });
+
+      const label = document.createElement("label");
+      label.textContent = `Checkbox ${key}`;
+
+      // Append the checkbox and label to the list
+      checkboxListDiv.appendChild(checkbox);
+      checkboxListDiv.appendChild(label);
+      checkboxListDiv.appendChild(document.createElement("br"));
+    });
   }
 });
 
-// Update Firebase when checkbox is toggled
-checkboxElement.addEventListener('change', (event) => {
-  set(checkboxRef, event.target.checked);
+// Add new checkbox to Firebase
+addCheckboxBtn.addEventListener("click", () => {
+  const newCheckboxRef = checkboxRef.push();
+  newCheckboxRef.set({
+    checked: false
+  });
 });
