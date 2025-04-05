@@ -3,17 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sync Checkbox with Firebase</title>
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js"></script>
+  <title>Sync Checkboxes with Firebase</title>
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+
+  <!-- Link to your app.js file -->
+  <script defer src="app.js"></script>
 </head>
 <body>
 
-  <h1>Sync Checkbox with Firebase</h1>
-  <label for="checkbox">Test Checkbox</label>
-  <input type="checkbox" id="checkbox">
+  <h1>Sync Checkboxes Across Devices</h1>
 
-  <!-- Link to the app.js file -->
-  <script src="app.js"></script>
+  <div id="checkbox-list"></div>
+
+  <button id="add-checkbox-btn">Add New Checkbox</button>
+
 </body>
 </html>
